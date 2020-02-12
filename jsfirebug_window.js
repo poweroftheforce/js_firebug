@@ -1,7 +1,9 @@
 /*
 	jsFirebug v 2.0.3
 */
-var jsFBDomain = 'http://10.69.68.72/CDEObjects/js_firebug/';
+console.log('domain2');
+var jsFBDomain = 'http://localhost:8081/';
+console.log(jsFBDomain + 'js_firebug.css');
 //var jsFBDomain = 'http://common.scrippsnetworks.com/common/js/jsfirebug/';
 /*
 	we load up a blank popup window so everything
@@ -25,6 +27,7 @@ document.getElementsByTagName('head')[0].appendChild(jquery_inc);
 /* onload for jQuery = jquery_ready(); */
 jquery_inc.onload = jquery_ready;
 jquery_inc.onreadystatechange = function() {
+	console.log('here');
 	if ( jquery_inc.readyState == 'loaded' || jquery_inc.readyState == 'complete' )
 		jquery_ready();
 };
