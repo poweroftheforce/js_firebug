@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<HTML>
+<HEAD>
+<TITLE>Document Title</TITLE>
+<script language="javascript" type="text/javascript" src="http://common.scrippsnetworks.com/common/js/jsfirebug/jquery-1.2.4a.js"></script>
+<script type="text/javascript">
+window.name = 'parent';
+//var jsfbWindow = {};
+
+//var jsfb_cw = window.open('http://10.69.68.37/CDEObjects/js_firebug/js_firebug.htm', '_blank', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=1,width=600,height=400');
+
+//jsfb_cw = open('http://10.69.68.37/CDEObjects/js_firebug/js_firebug.htm', 'window', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=1,width=600,height=400');
+//jsfb_cw.onload = function() {}
+
+//if ( typeof jsfbWindow == 'undefined' || jsfbWindow.closed )
+//	jsfbWindow = window.open('','','toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=1,width=600,height=400')
+//	jsfbWindow.name = 'jsfbWindow';
+//jsfbWindow.onload = function() { childLoaded(); }
+//jsfbWindow.document.write('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Untitled Document</title><script>opener.childLoaded();<\/script></head><body style="margin:0;padding:0;"></body></html>');
+
+
+//function childLoaded() {
+//	$(jsfbWindow).bind('load', function() {
+//		jsfbWindow.onresize = function() {
+//			jsfbWindow.document.write('resized<br />');
+//		}
+//		jsfbWindow.document.write('loaded<br />'+jsfbWindow.parent.name+":"+jsfbWindow.name);
+//		window.menubar.visible = true;
+//	});
+//	$(window.jsfbWindow).bind('resize', function() {
+//		jsfbWindow.document.write('resized<br />');
+//	});
+//}
+var jsfbWindow = null;
+
+function getSize() {
+	var w = 0, h = 0;
+	if ( typeof( jsfbWindow.innerWidth ) == 'number' ) {
+		/* Non-IE */
+		w = jsfbWindow.innerWidth;
+		h = jsfbWindow.innerHeight;
+	} else if ( jsfbWindow.document.documentElement && ( jsfbWindow.document.documentElement.clientWidth || jsfbWindow.document.documentElement.clientHeight ) ) {
+		/* IE 6+ in 'standards compliant mode' */
+		w = jsfbWindow.document.documentElement.clientWidth;
+		h = jsfbWindow.document.documentElement.clientHeight;
+	} else if ( jsfbWindow.document.body && ( jsfbWindow.document.body.clientWidth || jsfbWindow.document.body.clientHeight ) ) {
+		/* IE 4 compatible */
+		w = jsfbWindow.document.body.clientWidth;
+		h = jsfbWindow.document.body.clientHeight;
+	}
+	return [w, h];
+}
+
+function launchChildW() {
+	if (jsfbWindow != null)
+		jsfbWindow.window.close();
+	wopts  = 'width=300,height=500,resizable=1,alwaysRaised=1,scrollbars=1';
+	jsfbWindow = window.open('', 'testVar', wopts);
+//	jsfbWindow.document.write('<HTML><HEAD><TITLE>POPUP</TITLE><script type="text/javascript">window.onresize = function() { alert(opener.getSize()[1]); };<\/script></HEAD><BODY>This is a popup window<div id="d1" style="border:1px solid red">This is div d1</div></BODY></HTML>');
+	var d = jsfbWindow.document.body.appendChild(jsfbWindow.document.createElement('script'));
+	d.src = 'test.js';
+	var d = jsfbWindow.document.body.appendChild(jsfbWindow.document.createElement('div'));
+	d.innerHTML = 'this is the innerHTML of a div created and appended to a div (d) created from the parent';
+	if (jsfbWindow != null) {
+//		jsfbWindow.document.open()
+//		if (jsfbWindow.opener == null) {
+//			jsfbWindow.opener = self;
+//		}
+//		$(jsfbWindow).bind('load', function() {
+//			//alert('loaded<br />');
+//		});
+		$(jsfbWindow).bind('resize', function() {
+//			//alert('resized<br />');
+			alert(getSize()[1]);
+		});
+//		jsfbWindow.resizeTo(500, 300);
+	} else {
+		alert("Failed to open child window");
+	}
+}
+
+launchChildW();
+
+</script>
+</HEAD>
+<BODY>
+
+<a href="#null" onclick="openWin()">Open Win<a>
+<BR><BR>
+<a href="#null" onclick="alert(jQuery)">Append<a>
+<BR><BR>
+<a href="#null" onclick="childLoaded()">Test<a>
+
+</BODY>
+</HTML>

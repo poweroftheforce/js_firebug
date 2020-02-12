@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<link rel="stylesheet" type="text/css" href="main.css" />
+<link rel="stylesheet" type="text/css" href="css2.css" />
+<script language="javascript" type="text/javascript" src="http://10.69.68.20/CDEObjects/js_firebug/js_firebug_start.js"></script>
+</head>
+
+<body>
+
+<div id="testWrap">
+	<div id="divTest">
+		<p>
+			regular paragraph
+			<br />
+			<a href="#">anchor inside paragraph</a>
+			<span test="test">span after anchor<a href="#">anchor in span inside paragraph</a></span>
+		</p>
+		<p style="color: #FF0; background-color: #000; padding-bottom: 20px;">regular paragraph with inline styles</p>
+	</div>
+	<p class="specialParagraph">special paragraph</p>
+	<span class="justClass blue">span .justClass<a href="#">&nbsp;anchor inside .justClass</a></span><a href="#">anchor sibling to span .justClass</a>
+	<div id="divTest2" onclick="alert('yay');">
+		<span>span inside divTest2</span><br />
+		<a href="http://www.google.com">anchor 1 inside divTest2</a><br />
+		<a href="#">anchor 2 inside divTest2</a><br />
+		<a href="#">anchor 3 inside divTest2</a><br />
+		<p class="justClass">
+			paragraph .justClass inside divTest2<br />
+			<a href="http://www.yahoo.com">anchor 4 inside paragraph inside divTest2</a>
+		</p>
+	</div>
+	<div id="image" onclick="window.location.href = 'http://www.google.com';"></div>
+	<img id="test" src="progress_bar.gif" width="100" />
+</div>
+<br />
+</body>
+</html>
+<script language="javascript" type="text/javascript" src="http://common.scrippsnetworks.com/common/js/jquery/jquery_1_2_6.js"></script>
+<script language="javascript" type="text/javascript" src="http://10.69.68.20/CDEObjects/js_firebug/cde_debugger.js"></script>
+<script language="javascript" type="text/javascript">
+
+/* this is a comment is javascript on the parent/opener page */
+var myOpenerObj = {};
+myOpenerObj.type = 'my_own';
+
+</script>

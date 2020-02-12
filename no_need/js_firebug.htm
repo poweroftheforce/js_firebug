@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>JS Firebug v 1.1.2</title>
+<link rel="stylesheet" type="text/css" href="js_firebug.css" />
+
+<script language="javascript" type="text/javascript" src="http://10.69.68.20/CDEObjects/js_firebug/test_open/jquery.js"></script>
+<script language="javascript" type="text/javascript" src="http://common.scrippsnetworks.com/common/js/jquery.sni.js"></script>
+
+<script language="javascript" type="text/javascript">
+
+
+
+jQuery(function() {
+	/* make sure the $ symbol does not conflict with anything */
+	(function($) {
+//		window.onload = window.onresize = function() {
+//			opener.window.$.jsFirebugWindow.prototype.adjustJSFB();
+//		}
+	})(jQuery);
+});
+
+</script>
+</head>
+
+<body>
+	<div id="jsfWrap">
+		<div id="menuWrap">
+			<span id="btnStyle" class="menuBtn">Style</span>
+			<span id="btnCss" class="menuBtn">CSS</span>
+			<span id="btnHtml" class="menuBtn">HTML</span>
+			<span id="btnInfo" class="menuBtn">Info</span>
+			<span id="btnScript" class="menuBtn">Script</span>
+		</div>
+		<div id="styleScreen"></div>	
+		<div id="cssScreen"></div>
+		<div id="htmlScreen"></div>
+		<div id="infoScreen"></div>
+		<div id="scriptScreen"></div>
+	</div>
+	<div id="colorPreview"></div>
+	<div id="imagePreview"></div>
+	<div id="htmlContext">
+		<ul>
+			<li><a id="btnHTMLCM_CopyHTML" href="javascript: void(0);">Copy HTML</a></li>
+			<li><a id="btnHTMLCM_CopyInnerHTML" href="javascript: void(0);">Copy innerHTML</a></li>
+			<li><a id="btnHTMLCM_NewAttribute" href="javascript: void(0);">New Attribute&hellip;</a></li>
+			<li><a id="btnHTMLCM_EditHTML" href="javascript: void(0);">Edit HTML&hellip;</a></li>
+			<li><a id="btnHTMLCM_DeleteElement" href="javascript: void(0);">Delete Element</a></li>
+		</ul>
+	</div>
+</body>
+</html>

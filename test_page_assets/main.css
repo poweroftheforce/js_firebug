@@ -1,0 +1,18 @@
+@charset "utf-8";
+/* CSS Document */
+
+a, a:link, a:visited, a:hover {color: #990066;}
+span {color: #330099; display: block;}
+div p {color: #F00;}
+#divTest {background-color: #0BF; width: 400px; text-align: center;}
+#divTest p a, #divTest p a:link, #divTest p a:visited {color: #FF0; text-decoration: none;}
+#divTest p a:hover {color: #FFF; text-decoration: underline;}
+#divTest p a + span {font-size: 24px;}
+p.specialParagraph {color: #099;}
+.justClass {font: 11px Arial, Helvetica, sans-serif;}
+.justClass > a {color: #666633; text-decoration: none;}
+.blue {color: blue;}
+div {font: 12px Georgia, "Times New Roman", Times, serif; color: #F0F;}
+div#divTest2 {background: url(tile_small.jpg) top left; margin-top: 10px; width: 388px; padding: 6px;}
+div#divTest2 > a {color: #93D}
+#image {background: url(progress_bar.gif) no-repeat top left; width: 220px; height: 11px; margin: 0px;}

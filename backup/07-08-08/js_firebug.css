@@ -1,0 +1,382 @@
+@charset "utf-8";
+/* CSS Document */
+
+div#outputWindowContainer {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	display: block;
+	width: 100%;
+	background-color: #000;
+	border: 1px solid #00F;
+	font: 11px Arial, Helvetica, sans-serif;
+	height: 200px;
+}
+
+div#outputWindowContainer a, div#outputWindowContainer a:link, div#outputWindowContainer a:hover, div#outputWindowContainer a:visited {
+	display: block;
+	background-color: #000;
+	color: #0F0;
+	font: 11px Arial, Helvetica, sans-serif;
+	text-decoration: none;
+}
+
+div.heightAdjuster {
+	display: block;
+	width: 99%;
+	height: 5px;
+	background-color: #000;
+	cursor: n-resize;
+	border-bottom: 1px solid #00F;
+}
+
+div#outputWindowTitlebarContainer {
+	display: block;
+	width: 100%;
+	height: 16px;
+	background-color: #000;
+	color: #0F0;
+	font: 11px Arial, Helvetica, sans-serif;
+	text-align: left;
+	cursor: default;
+}
+
+span#oDebuggerTitlebarTitleSpan {
+	display: inline;
+	font: 11px Arial, Helvetica, sans-serif;
+	margin-left: 10px;
+	color: #0F0;
+}
+
+span.stylesForSpan {
+	display: inline;
+	font: bold 11px Arial, Helvetica, sans-serif;
+	color: #0CF;
+}
+
+span.btnCloseNormal {
+	display: inline;
+	font: 11px Arial, Helvetica, sans-serif;
+	position: absolute;
+	cursor: pointer;
+	right: 10px;
+	color: #000;
+}
+
+span.btnCloseHighlight {
+	display: inline;
+	font: 11px Arial, Helvetica, sans-serif;
+	position: absolute;
+	cursor: pointer;
+	right: 10px;
+	color: #FFF;
+}
+
+div#outputWindowMenuDiv {
+	display: block;
+	width: 100%;
+	height: 16px;
+	background-color: #000;
+	color: #FFF;
+	border-top: 1px solid #00F;
+	border-bottom: 1px solid #00F;
+	font: 11px Arial, Helvetica, sans-serif;
+	text-align: left;
+}
+
+span.jsFWMenuButton {
+	display: inline;
+	font: 11px Arial, Helvetica, sans-serif;
+	margin-left: 10px;
+	cursor: pointer;
+	color: #00F;
+}
+
+span.jsFWMenuButtonHighlight {
+	display: inline;
+	font: 11px Arial, Helvetica, sans-serif;
+	margin-left: 10px;
+	cursor: pointer;
+	color: #FFF;
+}
+
+/* Style Window */
+div#outputWindowEditorContainer {
+	display: block;
+	position: relative;
+	height: 150px;
+	padding-left: 5px;
+	overflow-y: auto;
+	font: 11px Arial, Helvetica, sans-serif;
+	background-color: #000;
+	color: #FFF;
+	text-align: left;
+}
+
+div.cssRuleContainer {
+	display: block;
+	background-color: #000;
+	color: #FFF;
+	font: 11px Arial, Helvetica, sans-serif;
+	text-align: left;
+	zoom: 1;
+}
+
+span#noStylePhrase {
+	display: inline;
+	font: 11px Arial, Helvetica, sans-serif;
+	background-color: #000;
+	color: #333;
+}
+
+a.cssHrefConatiner {
+	display: inline;
+	background-color: #000;
+	color: #FF0;
+	font: 11px Arial, Helvetica, sans-serif;
+}
+
+span.retrievedStyleForPhrase {
+	display: inline;
+	color: #BBF;
+	font: bold 11px Arial, Helvetica, sans-serif;
+}
+
+a.retrievedStyleForPhrase, a.retrievedStyleForPhrase:hover, a.retrievedStyleForPhrase:link, a.retrievedStyleForPhrase:visited {
+	display: inline;
+	color: #FBF;
+	font: 11px Arial, Helvetica, sans-serif;
+}
+
+div#cssRuleContainer {
+	display: block;
+	/*width: 375px;*/
+	font: 11px Arial, Helvetica, sans-serif;
+	background-color: #000;
+	color: #FFF;
+}
+
+span#cssSelectorTextContainer {
+	display: inline;
+	background-color: #000;
+	color: #FFF;
+	font: 11px Arial, Helvetica, sans-serif;
+}
+
+span.oCssTextSpan {
+	display: inline;
+	color: #00F;
+	padding-left: 2px;
+	background-color: #000;
+}
+
+div.disableSpan {
+	display: block;
+	float: left;
+	width: 10px;
+	height: 10px;
+	margin-top: 4px;
+	margin-right: 5px;
+}
+
+div.disableSpanShow {
+	display: block;
+	float: left;
+	background: url(disabled.gif) no-repeat top left #000;
+	width: 10px;
+	height: 10px;
+	margin-top: 4px;
+	margin-right: 5px;
+}
+
+div.disableSpanOn {
+	display: block;
+	float: left;
+	background: url(disabled_on.gif) no-repeat top left #000;
+	width: 10px;
+	height: 10px;
+	margin-top: 4px;
+	margin-right: 5px;
+}
+
+input.oValue, input.oProperty {
+	display: inline;
+	border: none;
+	font: 11px Arial, Helvetica, sans-serif;
+	background-color: #000;
+	color: #0BF;
+}
+
+input.oValueDisabled, input.oPropertyDisabled {
+	display: inline;
+	border: none;
+	font: 11px Arial, Helvetica, sans-serif;
+	background-color: #000;
+	color: #333;
+}
+
+span.oInheritedFromSpan {
+	display: inline;
+	background-color: #000;
+	color: #9F9;
+	font: bold 11px Arial, Helvetica, sans-serif;
+}
+
+a.oInheritedFromA, a.oInheritedFromA:link, a.oInheritedFromA:hover, a.oInheritedFromA:visited {
+	display: inline;
+	background-color: #000;
+	color: #0F0;
+	font: 11px Arial, Helvetica, sans-serif;
+	text-decoration: none;
+}
+
+span.oIDClassSpan {
+	display: inline;
+	font: 11px Arial, Helvetica, sans-serif;
+	background-color: #000;
+	color: #99F;
+}
+
+div#oSSOutputContainer {
+	display: block;
+	/*width: 375px;*/
+	background-color: #000;
+	color: #F06;
+	font: 11px Arial, Helvetica, sans-serif;
+	text-align: left;
+}
+
+/* CSS Window */
+div#outputWindowSSOutputContainer {
+	display: block;
+	position: relative;
+	width: 99.6%;
+	height: 150px;
+	padding-left: 5px;
+	overflow-y: auto;
+	font: 11px Arial, Helvetica, sans-serif;
+	background-color: #000;
+	color: #FFF;
+}
+
+a.ssOutputCssFileName, a.ssOutputCssFileName:link, a.ssOutputCssFileName:hover, a.ssOutputCssFileName:visited {
+	display: inline;
+	font: 11px Arial, Helvetica, sans-serif;
+	background-color: #000;
+	color: #3F6;
+	text-decoration: none;
+}
+
+/* HTML Window */
+div#jsFWHtmlWindow {
+	display: block;
+	position: relative;
+	padding-left: 5px;
+	height: 150px;
+	overflow-y: auto;
+	font: 11px Arial, Helvetica, sans-serif;
+	background-color: #000;
+	color: #FFF;
+	text-align: left;
+}
+
+div#jsFWHtmlWindow span {
+	font: 12px Arial, Helvetica, sans-serif;
+	display: inline;
+}
+span.jsFWHtmlSpan {
+	cursor: pointer;
+}
+
+span.jsFWHtmlTag {
+	color: #66F;
+}
+
+span.jsFWHtmlAttributeName {
+	color: #FF6;
+}
+
+span.jsFWHtmlAttributeValue {
+	color: #F66;
+}
+
+span.jsFWHtmlText {
+	color: #FFF;
+}
+
+span.expandSign {
+	cursor: pointer;
+	color: #FFF;
+}
+
+/* Info Window */
+div#jsFWInfoWindow {
+	display: block;
+	position: relative;
+	padding-left: 5px;
+	height: 150px;
+	overflow-y: auto;
+	font: 11px Arial, Helvetica, sans-serif;
+	background-color: #000;
+	color: #FFF;
+	text-align: left;
+}
+
+div#jsFWInfoWindow h2 {
+	margin: 0px;
+	padding: 0px;
+	font: 12px Arial, Helvetica, sans-serif;
+	color: #FF0;
+	margin-top: 5px;
+}
+
+div#jsFWInfoWindow span {
+	display: inline;
+	color: #FFF;
+}
+
+div#jsFWInfoWindow span.infoSpan {
+	margin-left: 20px;
+	display: inline;
+	color: #FFF;
+}
+
+div#jsFWInfoWindow span.infoNum {
+	display: inline;
+	color: #F00;
+}
+
+/* Script Window */
+div#jsFWScriptWindow {
+	display: block;
+	position: relative;
+	padding-left: 5px;
+	height: 150px;
+	overflow-y: auto;
+	font: 11px Arial, Helvetica, sans-serif;
+	background-color: #000;
+	color: #FFF;
+	text-align: left;
+}
+
+/**************** BEGIN POPUP ****************/
+div#popupContainer {display: block; position: absolute; font: 11px Arial, Helvetica, sans-serif; margin: 0px;}
+
+div.colorPopup {
+	display: block;
+	border: medium double rgb(0, 0, 0);
+	width: 50px;
+	height: 15px;
+}
+
+div.imagePopup {
+	display: block;
+	border: 1px solid #000;
+	width: 100px;
+	background-color: #FFF;
+	color: #000;
+	text-align: center;
+	padding: 2px;
+}
+
+/***************** END POPUP *****************/

@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style>
+#divWrap { position: relative; width: 200px; height: 200px; background: #0BF; color: #000; zIndex: 50; textAlign: center; padding: 10px 0px; }
+.special { color: red; font-size: 24px; }
+</style>
+<script language="javascript" type="text/javascript" src="http://common.scrippsnetworks.com/common/js/jquery/jquery-1.2.6.min.js"></script>
+<script language="javascript" type="text/javascript" src="http://common.scrippsnetworks.com/common/js/jquery.sni.js"></script>
+<script language="javascript" type="text/javascript">
+
+
+(function($) {
+	/*
+		jQuery plugin: json2HTML( obj )
+		this method I created to try and
+		dynamically create HTML from a json
+		type structure.  Using json, you create, setup and append
+		elements to whatever $( [MATCHED_ELEMENTS] )
+		EXAMPLE:
+			You always start with an array.
+			var html = [];
+			// var html = [{}]; inside the array are objects {}
+			// These objects have properties that tell the plugin what to do.
+			// you can think of these properties as you would with jQuery plugin options.
+			nodeName - This is simply "createElement" - nodeName: 'div'
+			append - Has to be an array - [] (with objects inside, yay!!) [{}] - this is what makes it possible to have mutliple versions of some element.
+			html, css, attr, or any other jQuery method can be used in between nodeName AND append
+				EXAMPLE STRUCTURE:
+					// create an array with one div that has "Hello World" as it's innerHTML
+					var html = [ { nodeName: 'div', html: 'Hello World' } ];
+					$(document).json2HTML(html);
+					// let's say you wanted 2 div as siblings
+					var html = [
+						{ nodeName: 'div', html: 'Hello World' },
+						{ nodeName: 'div', html: 'Hello World, I am div #2...it's as simple as adding a comma and another set of curly brackets with nodeName: and html: properties!' }
+					];
+					$(document).json2HTML(html);
+	*/
+	$.fn.json2HTML = function( obj ) {
+		var defaults = {};
+		var options = $.extend(defaults, options);
+		return this.each(function(i) {
+			var previousElement = this;
+			function json2HTML( obj ) {
+				for ( var i=0; i<obj.length; i++ ) {
+					for ( prop in obj[i] ) {
+						switch ( prop ) {
+							case 'eval': { eval(obj[i][prop]); alert('A' + testIt); break; }
+							case 'nodeName': {
+								var node = document.createElement(obj[i][prop]);
+								$(previousElement).append(node);
+								break;
+							}
+							case 'append': { previousElement = node; json2HTML(obj[i][prop]); break; }
+							case 'props': {
+								var props = obj[i][prop];
+								for ( var x=0; x<props.length; x++ )
+									eval('node.' + props[x].split('=')[0] + ' = ' + props[x].split('=')[1] + ';');
+								break;
+							}
+							case 'id': { $(node).attr('id', obj[i][prop]); break; }
+							case 'if': { eval(obj[i][prop]); break; }
+							case 'href': { $(node).attr('href', obj[i][prop]); break; }
+							case 'return': { return eval(obj[i][prop]); break; }
+							case 'addClass':
+							case 'html':
+							case 'attr':
+							case 'css': { eval('$(node).' + prop + '(obj[i][prop]);'); break; }
+							/* default - click, mouseover, my_plugin */
+							default: { eval('$(node).' + prop + '(' + obj[i][prop] + ');'); break; }
+						}
+					}
+					
+				}
+				if ( node ) previousElement = node.parentNode.parentNode;
+			};
+			json2HTML(obj);
+		});
+	};
+})(jQuery);
+
+
+jQuery(function() {
+
+	/*
+		we are going to demonstrate 3 ways to create elements
+		on a page, old school, json2HTML and hard code but with jQuery
+		They will all have the same values with the expection
+		of left, id, zIndex basically.  The values will be as follows
+		id: json2HTMLDiv - id: oldSchoolDiv - id: hardCodejQuery
+		position: absolute
+		zIndex: 100 - zIndex: 101 - zIndex: 102
+		top: 0
+		left: 0 - left: 150 - left: 300
+		width: 100
+		height: 200
+		background: #6BF
+		color: black
+		Both creations will use a drop shadow plugin
+		and both will have onclick values that alert.
+		Both will also have a paragraph, anchor and span inside.
+		No CSS will be used in this case
+		html would look like so:
+		<div id="json2HTMLDiv" style="position: absolute; z-index: 100; top: 0px; left: 0px width: 100px; height: 100px; background: blue; color: black;" onclick="alert('Click on json2HTMLDiv');">
+			<p>paragraph</p>
+			<a href="http://ww.google.com">anchor: go to Google</a>
+			<span>span</span>
+		</div>
+		<div id="oldSchoolDiv" style="position: absolute; z-index: 101; top: 0px; left: 150px width: 100px; height: 100px; background: #6BF; color: black;" onclick="alert('Click on oldSchoolDiv');">
+			<p>paragraph</p>
+			<a href="http://ww.google.com">anchor: go to Google</a>
+			<span>span</span>
+		</div>
+		<div id="hardCodejQuery" style="position: absolute; z-index: 102; top: 0px; left: 150px width: 100px; height: 100px; background: #6BF; color: black;" onclick="alert('Click on hardCodejQuery');">
+			<p>paragraph</p>
+			<a href="http://ww.google.com">anchor: go to Google</a>
+			<span>span</span>
+		</div>
+		obviously the html structure is the way to go unless you just can't :)
+	*/
+	/* json2HTML method  18 lines */
+	$(document.body).json2HTML([{
+		nodeName: 'div',
+		id: 'json2HTMLDiv',
+		css: {
+			position: 'absolute', zIndex: 100,
+			left: '0px', top: '0px',
+			width: '100px', height: '200px',
+			background: '#6BF', color: 'black', },
+		click: function() {
+			alert('Click on ' + eval("node.id"));
+		},
+		dropShadow: "'add', { color: '#000', distance: 1, layers: 2, opacity: [50, 20] }",
+		append: [
+			{ nodeName: 'p', html: 'json2HTML method  18 lines of JS' },
+			{ nodeName: 'a', href: 'http://ww.google.com', html: 'anchor: go to Google' },
+			{ nodeName: 'span', html: 'span' }
+		]
+	}]);
+	
+	
+	/* Old School Method  21 lines */
+	var div = document.createElement('div');
+	div.id = 'oldSchoolDiv';
+	div.style.position = 'absolute'; div.style.zIndex = 101;
+	div.style.left = '150px'; div.style.top = '0px';
+	div.style.width = '100px'; div.style.height = '200px';
+	div.style.background = '#6BF'; div.style.color = 'black';
+	div.onclick = function() {
+		alert('Click on ' + this.id);
+	};
+	document.body.appendChild(div);
+	var p = document.createElement('p');
+	p.innerHTML = 'Old School Method  21 lines of JS';
+	div.appendChild(p);
+	var a = document.createElement('a');
+	a.href = 'http://ww.google.com';
+	a.innerHTML = 'anchor: go to Google';
+	div.appendChild(a);
+	var s = document.createElement('span');
+	s.innerHTML = 'span';
+	div.appendChild(s);
+	$(div).dropShadow('add', { color: '#000', distance: 1, layers: 2, opacity: [50, 20] }); /* we still used the jQuery plug in way */
+	
+	
+	/* old school with jQuery 25 lines */
+	var div = document.createElement('div');
+	$(div)
+		.attr('id', 'hardCodejQuery')
+		.css({
+			position: 'absolute', zIndex: 102,
+			left: '300px', top: '0px',
+			width: '100px', height: '200px',
+			background: '#6BF', color: 'black',
+		})
+		.click(function() {
+			alert('Click on ' + this.id);
+		});
+	$(document.body).append(div);
+	var p = document.createElement('p');
+	$(p).html('old school with jQuery 25 lines of JS');
+	$(div).append(p);
+	var a = document.createElement('a');
+	$(a)
+		.attr('href', 'http://ww.google.com')
+		.html('anchor: go to Google');
+	$(div).append(a);
+	var s = document.createElement('span');
+	$(s).html('span');
+	$(div).append(s);
+	$(div).dropShadow('add', { color: '#000', distance: 1, layers: 2, opacity: [50, 20] }); /* we still used the jQuery plug in way */
+
+	
+});
+</script>
+</head>
+<body>
+</body>
+</html>

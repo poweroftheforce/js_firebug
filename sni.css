@@ -1,0 +1,32 @@
+#sniToolsScreen { position: relative; display: none; overflow: auto; text-align: left; }
+/*#sniToolsScreen { font: 12px Arial, Helvetica, sans-serif; color: #00F; display: none; overflow-y: auto; text-align: left; padding: 5px; }*/
+#sniToolsScreen strong { font-weight: bold; color: #000; }
+#sniToolsScreen input { border: 1px inset #000; }
+#sniToolsScreen select { display: block; }
+#URLFromJitterbugResult { color: #F00; font-weight: bold; }
+
+
+#mdmWrap { width: 600px; margin-top: 10px; background: #CCC; border: 1px solid #000; padding: 5px; }
+
+#deconceptWrap { width: 600px; margin-top: 10px; background: #CCC; border: 1px solid #000; padding: 5px; }
+#SWFObjectWrap { width: 600px; margin-top: 10px; background: #CCC; border: 1px solid #000; padding: 5px; }
+#swfobjectWrap { width: 600px; margin-top: 10px; background: #CCC; border: 1px solid #000; padding: 5px; }
+#jQueryWrap { width: 600px; margin-top: 10px; background: #CCC; border: 1px solid #000; padding: 5px; }
+
+#SNIWrap { width: 600px; margin-top: 10px; background: #CCC; border: 1px solid #000; padding: 5px; }
+
+#toolsWrap { width: 600px; margin-top: 10px; background: #CCC; border: 1px solid #000; padding: 5px; }
+
+
+.OBJ-object { color: #900; font-weight: bold; }
+.OBJ_function-name { color: #009; }
+.OBJ_function-value-name {}
+.OBJ_function-value-return { font-weight: normal; color: #F00; }
+
+
+.OBJ_num-name,
+.OBJ_num-value,
+.OBJ_string-name,
+.OBJ_string-value,
+.OBJ_boolean-name,
+.OBJ_boolean-value { font-weight: normal; color: #000; }

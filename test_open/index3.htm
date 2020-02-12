@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>JavaScript Example 3-2 -- Handling Events in a Child Window
+      (Events #3)</title>
+<style type="text/css">
+<!--
+table.code {
+	background: #ccffcc;
+	border: 0;
+}
+div.width {
+	width: 640
+}
+div.date {
+	font-style: italic;
+	text-align: right;
+	font-size: 80%;
+}
+div.footer {
+	font-size: 80%
+}
+ //
+-->
+</style>
+<meta http-equiv="Content-Script-Type" content=
+    "text/javascript">
+<script type="text/javascript" language="JavaScript1.2">
+ <!-- 
+ var childW = null;
+ function launchChildW() {
+   if (childW != null) childW.window.close();
+     
+   wopts  = 'width=300,height=500,resizable=1,alwaysRaised=1,scrollbars=1';
+   childW = window.open('http://10.69.68.31/CDEObjects/js_firebug/test_open/popup.htm', 'childW', wopts);
+	childW.onload = handleMe;
+
+   if (childW != null) {
+     childW.document.open()
+     childW.document.bgColor = "ccffcc";
+     childW.document.write('<br>');
+     if (childW.opener == null) {
+       childW.opener = self;
+     }
+   } else {
+       alert("Failed to open child window");
+   }
+ }
+
+ function showMe(txt) {
+   if (childW == null) {
+       // alert("it wasn't open"); return false;
+       launchChildW();
+     }
+     // Note: NN4 won't actually display anything until the line is complete
+     // Hence the <BR> is required to flush the text.
+   childW.document.writeln(txt + "<BR>");
+ }
+
+ // Determine browser flavor
+ var isNav4, isIE4
+ if (parseInt(navigator.appVersion.charAt(0)) >= 4) {
+   isNav4 = (navigator.appName == "Netscape") ? true : false
+   isIE4 = (navigator.appName.indexOf("Microsoft" != -1)) ? true : false
+     if (!(isNav4 || isIE4)) alert("Unknown browser type");
+ }
+
+ function handleMe(win, evnt) {
+   // Netscape passes an event object to event handlers,
+   // but IE passes nothing.  Note that childW is hard-wired.
+   if (isNav4)     showMe(evnt.type + " fired... ")
+   else if (isIE4) showMe(win.event.type + " fired... ")
+   else alert("Unknown browser type");
+ }
+
+ function enableChild() {
+   if (childW == null) launchChildW();
+   if (isNav4) {
+     // Intercept several types of events from the child window.
+     childW.document.captureEvents(Event.CLICK | Event.MOUSEDOWN | Event.MOUSEUP);
+    }
+   // Register handlers for the various events
+   // lowercase event names are NN/IE compatible
+   childW.document.onclick = function() {handleMe(childW); };
+   childW.document.onmousedown = function() {handleMe(childW); };
+   childW.document.onmouseup = function() {handleMe(childW); };
+   childW.document.onresize = function() {handleMe(childW); };
+ }
+ 
+// window.onload = window.onresize = function() {handleMe(window); };
+//-->
+</script>
+</head>
+<body>
+	<div class="width">
+		<form name="buttons" onsubmit=
+		"showMe(document.buttons.writeText.value); return false">
+			<input name="launchButton" type="button" value=
+		  "Launch Window" onClick="launchChildW()">
+			<input name=
+		  "writeStuff" type="button" value="Write Stuff" onclick=
+		  "showMe(document.buttons.writeText.value)">
+			<input name=
+		  "writeText" type="text" value="write stuff here...">
+		</form>
+		<form name="buttons2">
+			<input name="enableButton" type="button" value=
+		  "Enable Child Click Handler" onClick="enableChild()">
+		</form>
+	</div>
+</body>
+</html>

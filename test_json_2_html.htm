@@ -1,0 +1,503 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style>
+#divWrap { position: relative; width: 200px; height: 200px; background: #0BF; color: #000; zIndex: 50; textAlign: center; padding: 10px 0px; }
+.special { color: red; font-size: 24px; }
+
+
+.OBJ-object { font: bold 12px Arial, Helvetica, sans-serif; color: #900; }
+</style>
+<!--<script language="javascript" type="text/javascript" src="http://10.69.68.21/js_includes/jquery-1.3.1.min.js"></script>-->
+<script language="javascript" type="text/javascript" src="http://common.scrippsnetworks.com/common/js/jquery/jquery-1.2.6.min.js"></script>
+
+
+<!--<script language="javascript" type="text/javascript" src="http://common.scrippsnetworks.com/common/js/jquery/jquery-1.2.6.min.js"></script>-->
+<!--<script language="javascript" type="text/javascript" src="http://common.scrippsnetworks.com/common/js/jquery.sni.js"></script>-->
+<script language="javascript" type="text/javascript" src="http://localhost/js_includes/jquery.sni.js"></script>
+<script type="text/javascript" src="http://common.scrippsnetworks.com/common/js/swfobject/swfobject.js"></script>
+<script language="javascript" type="text/javascript" src="http://common.scrippsnetworks.com/common/pup/pup.js"></script>
+<script language="javascript" type="text/javascript" src="yahoo.js"></script>
+<script language="javascript" type="text/javascript" src="json.js"></script>
+<script type='text/javascript' src='http://getfirebug.com/releases/lite/1.2/firebug-lite-compressed.js'></script>
+<!--
+<script type="text/javascript" src="swfobject2.1.js"></script>
+-->
+<script language="javascript" type="text/javascript">
+
+
+var obj2String = {
+	compactOutput: false, 		
+	includeProtos: false, 	
+	includeFunctions: true,
+	detectCirculars: true,
+	restoreCirculars: true,
+	make:function(arg,restore) {
+		this.restore=restore;
+		this.mem=[];this.pathMem=[];
+		return this.toJsonStringArray(arg).join('');
+	},
+	toObject:function(x){
+		if(!this.cleaner){
+			try{this.cleaner=new RegExp('^("(\\\\.|[^"\\\\\\n\\r])*?"|[,:{}\\[\\]0-9.\\-+Eaeflnr-u \\n\\r\\t])+?$')}
+			catch(a){this.cleaner=/^(true|false|null|\[.*\]|\{.*\}|".*"|\d+|\d+\.\d+)$/}
+		};
+		if(!this.cleaner.test(x)){return {}};
+		eval("this.myObj="+x);
+		if(!this.restoreCirculars || !alert){return this.myObj};
+		if(this.includeFunctions){
+			var x=this.myObj;
+			for(var i in x){if(typeof x[i]=="string" && !x[i].indexOf("JSONincludedFunc:")){
+				x[i]=x[i].substring(17);
+				eval("x[i]="+x[i])
+			}}
+		};
+		this.restoreCode=[];
+		this.make(this.myObj,true);
+		var r=this.restoreCode.join(";")+";";
+		eval('r=r.replace(/\\W([0-9]{1,})(\\W)/g,"[$1]$2").replace(/\\.\\;/g,";")');
+		eval(r);
+		return this.myObj
+	},
+	toJsonStringArray:function(arg, out) {
+		if(!out){this.path=[]};
+		out = out || [];
+		var u; // undefined
+		switch (typeof arg) {
+		case 'object':
+			this.lastObj=arg;
+			if(this.detectCirculars){
+				var m=this.mem; var n=this.pathMem;
+				for(var i=0;i<m.length;i++){
+					if(arg===m[i]){
+						out.push('"JSONcircRef:'+n[i]+'"');return out
+					}
+				};
+				m.push(arg); n.push(this.path.join("."));
+			};
+			if (arg) {
+				if (arg.constructor == Array) {
+					out.push('[');
+					for (var i = 0; i < arg.length; ++i) {
+						this.path.push(i);
+						if (i > 0)
+							out.push(',\n');
+						this.toJsonStringArray(arg[i], out);
+						this.path.pop();
+					}
+					out.push(']');
+					return out;
+				} else if (typeof arg.toString != 'undefined') {
+					out.push('{');
+					var first = true;
+					for (var i in arg) {
+						if(!this.includeProtos && arg[i]===arg.constructor.prototype[i]){continue};
+						this.path.push(i);
+						var curr = out.length; 
+						if (!first)
+							out.push(this.compactOutput?',':',\n');
+						this.toJsonStringArray(i, out);
+						out.push(':');                    
+						this.toJsonStringArray(arg[i], out);
+						if (out[out.length - 1] == u)
+							out.splice(curr, out.length - curr);
+						else
+							first = false;
+						this.path.pop();
+					}
+					out.push('}');
+					return out;
+				}
+				return out;
+			}
+			out.push('null');
+			return out;
+		case 'unknown':
+		case 'undefined':
+		case 'function':
+			if(!this.includeFunctions){out.push(u);return out};
+			//arg="JSONincludedFunc:"+arg;
+			//out.push('"');
+			//var a=['\n','\\n','\r','\\r','"'];
+			//arg+=""; for(var i=0;i<6;i+=2){arg=arg.split(a[i]).join(a[i+1])};
+			out.push(arg);
+			//out.push('"');
+			return out;
+		case 'string':
+			if(this.restore && arg.indexOf("JSONcircRef:")==0){
+				this.restoreCode.push('this.myObj.'+this.path.join(".")+"="+arg.split("JSONcircRef:").join("this.myObj."));
+			};
+			out.push('"');
+			var a=['\n','\\n','\r','\\r','"','\\"'];
+			arg+=""; for(var i=0;i<6;i+=2){arg=arg.split(a[i]).join(a[i+1])};
+			out.push(arg);
+			out.push('"');
+			return out;
+		default:
+			out.push(String(arg));
+			return out;
+		}
+	}
+};
+
+
+jQuery(function() {
+
+//	var test = true;
+//	var evalVar = 'id';
+//	
+//	test = function() {
+//		this.testIt = '"dd"';
+//		this.obj = document.createElement('p');
+//		this.obj.testCar = 'toyota';
+//		this.obj2 = document.createElement('p');
+//		this.obj2.testProp = this.obj;
+//		var html = [{
+//			nodeName: 'div',
+//			id: 'divWrap',
+//			props: [ {testProp: this.obj } ],
+//			html: 'Hello World',
+//			if: "if (" + test + ") { $(node).css('background', '#00F'); }",
+//			click: function() {
+//				alert('div 1 was clicked' + $.data(this, 'testProp'))
+//			},
+//			eval: 'this.testIt = node',
+//			dropShadow: "'add', { color: '#000', distance: 1, layers: 2, opacity: [50, 20] }",
+//			append: [{
+//				nodeName: 'a',
+//				addClass: 'special',
+//				href: 'http://www.google.com',
+//				html: 'anchor 1',
+//				append: [
+//					{nodeName: 'p', html: 'p2'},
+//					{nodeName: 'p', html: 'p3'}
+//				]
+//			}]
+//		},{
+//			nodeName: 'p',
+//			html: 'hello world'
+//		}];
+//	
+//	
+//		$(document.body).json2HTML(html);
+//		
+//	}
+//	new test();
+//	
+//	var a1 = a2 = { nodeName: 'a', href: 'http://www.yahoo.com', html: 'goto yahoo' };
+//	var pCSS = { font: '14px Verdana', color: '#60F' };
+//	var p1 = p2 = p3 = { nodeName: 'p', css: pCSS, html: 'This is some regular old paragraph' };
+//	var html = [{
+//		nodeName: 'div',
+//		append: [
+//			a1, /* append an anchor */
+//			{ nodeName: 'br' }, /* append a BR tag */
+//			a2, /* append an anchor */
+//			p1, /* append a paragraph */
+//			p2, /* append a paragraph */
+//			p3 /* append a paragraph */
+//			//{ nodeName: 'input', attr: { type: 'submit', name: 'test', value: 'test' }, html: 'test' }
+//		]
+//	}];
+//	$(document.body).json2HTML(html);
+//	
+//	$(document.body).json2HTML([{ nodeName: 'div', html: 'test 123' }]);
+//	
+//	$(document.body).json2HTML([{ nodeName: 'input', attr: { type: 'button', value: 'testing' } }]);
+//
+//	$(document.body).json2HTML([{ nodeName: 'input', attr: { type: 'radio', value: 'rad1', checked: 'checked' } }]);
+//	
+//	$(document.body).json2HTML([{ nodeName: 'select', id: 'testSelect' }]);
+//	
+//	$('#testSelect').json2HTML([{ nodeName: 'option', val: 'opt1', text: '123' }]);
+//	
+//	var k = document.createElement('option');
+//	$(k).val('dfgfdgdfg');
+//	$(k).text('dfgfdgdfg');
+//	$('#testSelect').append(k);
+//	
+//	var a = $('<div>');
+//	$(a).html('Hello World !!!!');
+//	$(document.body).append(a);
+	
+
+(function($) {
+	$.fn.objSniffer = function( obj, str_obj, options ) {
+		if ( !obj && !str_obj ) {
+			alert('obj && str_obj required.');
+			return;
+		}
+		if ( typeof str_obj != 'string' ) {
+			alert('parameter str_obj needs to be type of String.');
+			return;
+		}
+		if ( !$.fn.json2HTML ) {
+			alert('This plugin requires the json2HTML plugin.');
+			return;
+		}
+		var t = new Date();
+		var defaults = {
+			rootWrapID: 'OBJ-root-id-' + t.getTime()
+		};
+		var options = $.extend(defaults, options);
+		$.fn.sniffObject = function( obj, name, container ) {
+			switch ( typeof obj ) {
+				case 'object': {
+					for ( x in obj ) {
+						switch ( typeof obj[x] ) {
+							case 'object': {
+								//var type_of = $(obj).get(0).nodeType != 1 ? typeof x : typeof eval(x);
+								var type_of = '123';
+								$(container).json2HTML( [{
+									nodeName: 'ul',
+									addClass: 'OBJ-object',
+									id: name.replace(/\./gi, '-') + '-' + x,
+									css: { 'margin-left': '15px' },
+									props: ['htmlText="' + x + '"'],
+									append: [{
+										nodeName: 'span',
+										id: 'ES_' + name.replace(/\./gi, '-') + '-' + x,
+										css: { cursor: 'pointer' },
+										addClass: 'expand-sign',
+										html: '-&nbsp;' + x + '&nbsp;[' + type_of + ']</span>',
+										click: function() {
+											$.each($('li', this.parentNode), function(i) {
+												$(this).toggle();
+											});
+											if ( $(this).text().toString().indexOf('+') != -1 ) {
+												$(this).text('-' + $(this).text().substring(1, $(this).text().length));
+											} else {
+												$(this).text('+' + $(this).text().substring(1, $(this).text().length));
+											}
+										}
+									}]
+								}] );
+//								$.fn.objSniffer(eval(name + '.' + x), name + '.' + x, '#' + name.replace(/\./gi, '-') + '-' + x);
+//								$.fn.objSniffer(eval('$(obj).get(0).' + x), x, '#' + name.replace(/\./gi, '-') + '-' + x);
+
+								if ( $(obj).get(0).nodeType != 1 ) {
+									alert(name + '.' + x + "||" + obj);
+									$.fn.sniffObject(eval(name + '.' + x), name + '.' + x, '#' + name.replace(/\./gi, '-') + '-' + x);
+								} else {
+									//alert(x + "::" + '$(this).get(0).' + x ); 
+									$.fn.sniffObject(eval('$(obj).get(0).' + x), '$(obj).get(0).' + x, '#' + name.replace(/\./gi, '-') + '-' + x);
+								}
+								break;
+							}
+							case 'function': {
+								var func = obj[x].toString();
+								var str_funcName = func.substring(0, func.indexOf('{') - 1);
+								var str_return = func.match(/return.*?;/gi) != null ? func.match(/return.*?;/gi) : '';
+								$(container).json2HTML( [{
+									nodeName: 'li',
+									css: { 'margin-left': '15px' },
+									html: '<span class="OBJ_function-name">' + x + '</span>: <span class="OBJ_function-value-name">' + str_funcName + '</span>&nbsp;<span class="OBJ_function-value-return">' + str_return + '</span>'
+								}] );
+								break;
+							}
+							case 'number': { $(container).json2HTML( [{ nodeName: 'li', css: { 'margin-left': '15px' }, html: '<span class="OBJ_num-name">' + x + '</span>: <span class="OBJ_num-value">' + obj[x] + '</span>' }] ); break; }
+							case 'string': { $(container).json2HTML( [{ nodeName: 'li', css: { 'margin-left': '15px' }, html: '<span class="OBJ_string-name">' + x + '</span>: <span class="OBJ_string-value">' + obj[x] + '</span>' }] ); break; }
+							case 'boolean': { $(container).json2HTML( [{ nodeName: 'li', css: { 'margin-left': '15px' }, html: '<span class="OBJ_boolean-name">' + x + '</span>: <span class="OBJ_boolean-value">' + obj[x] + '</span>' }] ); break; }
+							default: { $(container).json2HTML( [{ nodeName: 'li', css: { 'margin-left': '15px' }, html: typeof x }] ); break; }
+						}
+					}
+					break;
+				}
+				case 'function': {
+					var func = obj.toString();
+					var str_funcName = func.substring(0, func.indexOf('{') - 1);
+					var str_return = func.match(/return.*?;/gi) != null ? func.match(/return.*?;/gi) : '';
+					$(container).json2HTML( [{
+						nodeName: 'li',
+						css: { 'margin-left': '15px' },
+						html: '<span class="OBJ_function-value-name">' + str_funcName + '</span>&nbsp;<span class="OBJ_function-value-return">' + str_return + '</span>'
+					}] );
+					break;
+				}
+				case 'number': { $(container).json2HTML( [{ nodeName: 'li', css: { 'margin-left': '15px' }, html: '<span class="OBJ_num-name">' + obj + '[' + typeof obj + ']' + '</span>: <span class="OBJ_num-value">' + obj + '</span>' }] ); break; }
+				case 'string': { $(container).json2HTML( [{ nodeName: 'li', css: { 'margin-left': '15px' }, html: '<span class="OBJ_string-name">' + obj + '[' + typeof obj + ']' + '</span>: <span class="OBJ_string-value">' + obj + '</span>' }] ); break; }
+				case 'boolean': { $(container).json2HTML( [{ nodeName: 'li', css: { 'margin-left': '15px' }, html: '<span class="OBJ_boolean-name">' + obj + '[' + typeof obj + ']' + '</span>: <span class="OBJ_boolean-value">' + obj + '</span>' }] ); break; }
+				default: { $(container).json2HTML( [{ nodeName: 'li', css: { 'margin-left': '15px' }, html: typeof obj }] ); break; }
+			}
+		};
+		return this.each(function(i) {
+			var self = this;
+			var str_ES_root_wrapID = $(obj).attr('id') != '' ? $(obj).attr('id') : 'OBJ-root-' + t.getTime();
+			$(self).json2HTML( [{
+				nodeName: 'ul',
+				addClass: 'OBJ-root',
+				id: options.rootWrapID,
+				append: [{
+					nodeName: 'span',
+					id: 'ES_' + str_ES_root_wrapID,
+					css: { cursor: 'pointer' },
+					addClass: 'expand-sign',
+					html: '-&nbsp;' + str_obj + '&nbsp;[' + typeof obj + ']</span>',
+					click: function() {
+						$.each($('li', this.parentNode), function(i) {
+							$(this).toggle();
+						});
+						if ( $(this).text().toString().indexOf('+') != -1 ) {
+							$(this).text('-' + $(this).text().substring(1, $(this).text().length));
+						} else {
+							$(this).text('+' + $(this).text().substring(1, $(this).text().length));
+						}
+					}
+				}]
+			}] );
+			$.fn.sniffObject( obj, str_obj, '#' + options.rootWrapID );
+			/* collapse all expand/unexpand signs */
+			$('.expand-sign').click();
+		});
+	};
+})(jQuery);
+
+
+jQuery(function() {
+	/* make sure the $ symbol does not conflict with anything */
+	(function($) {
+//var pup = new sniPUP('objWrap2');
+//pup.channelID = 2141;
+//pup.lcDivName = 'lcBannerDiv';
+//pup.autoPlay = false;
+//pup.showList = true;
+//pup.hasSearch = true;
+//pup.siteID = 'diy';
+//pup.configXML = 'http://www.diynetwork.com/webdiy/images/showpages/sharedincludes/xml/showpagepup.xml';
+//pup.write();
+	
+	})(jQuery);
+});
+
+
+
+	//$('.testCLass').objSniffer(jQuery.fn, 'jQuery.fn');
+	//alert(typeof $('.testCLass').get(0).ownerDocument)
+	//$('#objWrap').objSniffer($('.testCLass').get(0), 'testCLass');
+	$('img').error(function() { /*alert('Image not found: ' + this.src); */ });
+	$('#objWrap').css('cssText', 'width: 100px; height: 100px;');
+	$('#objWrap').css('background', 'red');
+	var cssText = $('#objWrap').css('cssText').toLowerCase().replace(/width:\s.*[;]/gi, 'width: 300px !important;');
+	//	, 'width: 300px !important;');
+	//alert(cssText)
+	$('#objWrap').css('cssText', cssText);
+	//	$('#objWrap').css('b', '300px !important');
+	
+	
+(function($) {
+	$.obj2Cookie = function(obj, str_obj, options) {
+		if ( !$.data(document, 'obj2Cookie') ) {
+			$.data(document, 'obj2Cookie', []);
+			var cookieData = $.data(document, 'obj2Cookie');
+			window.obj2Cookie_is = false;
+		} else {
+			window.obj2Cookie_is = true;
+			var cookieData = $.data(document, 'obj2Cookie');
+			/* obj2Cookie exists! - let's see if we're coming back through the loop */
+			var str = str_obj + ': {}';
+			//$.data(document, 'obj2Cookie', str);
+			str_previous = 'var ' + str_obj + ' = { ' + $.data(document, 'obj2Cookie').toString() + '}';
+			alert(str_previous)
+		}
+		var defaults = {};
+		var options = $.extend(defaults, options);
+		/* make sure it's an object */
+		if ( typeof obj != 'object' || $.isFunction(obj) ) {
+			return;
+		}
+		/* go through each prop and build a string version of it */
+		for ( x in obj ) {
+			var val = (typeof obj[x]).toLowerCase();
+			switch ( val ) {
+				case 'object': {
+					if ( $.isFunction(val) ) {
+						alert(val);
+					} else if ( $.sniUtil.isArray(obj[x]) ) {
+						var str_array = [];
+						for ( var i=0; i<obj[x].length; i++ ) {
+							switch ( typeof obj[x][i] ) {
+								case 'object': {
+									break;
+								}
+								case 'function': { str_array.push(obj[x][i]); /*str_array.push('"' + obj[x][i].toString() + '"');*/ break; }
+								case 'number': { str_array.push(obj[x][i]); break; }
+								case 'string': { str_array.push('"' + obj[x][i].toString() + '"'); break; }
+								case 'boolean': { str_array.push(obj[x][i]); break; }
+								default: { break; }
+							}
+						}
+						cookieData.push(x.toString() + ': [' + str_array + ']' );
+					} else {
+						//var str = str_obj + ' = { ' + $.data(document, 'obj2Cookie').toString() + ', ' + x.toString() + ': {}}';
+						//alert(str)
+						//cookieData.push(x.toString() + ': {}');
+						//$.obj2Cookie(str_obj + '.' + x.toString());
+						$.obj2Cookie(obj[x], x.toString());
+					}
+					break;
+				}
+				case 'function': { cookieData.push(x.toString() + ': ' + obj[x].toString()); break; }
+				case 'number': { cookieData.push(x.toString() + ': ' + obj[x]); break; }
+				case 'string': { cookieData.push(x.toString() + ': "' + obj[x].toString() + '"'); break; }
+				case 'boolean': { cookieData.push(x.toString() + ': ' + obj[x]); break; }
+				default: { alert(val); break; }
+			}
+			//$.data(document, 'obj2Cookie', cookieData);
+			$.data(document, 'obj2Cookie', cookieData);
+		}
+		if ( !window.obj2Cookie_is ) {
+			return 'var ' + str_obj + ' = { ' + $.data(document, 'obj2Cookie').toString() + '}';
+		} else {
+			return str_previous + ': { ' + $.data(document, 'obj2Cookie').toString() + '}';
+		}
+	};
+})(jQuery);
+
+
+if ( jQuery.cookie('testCookie') ) {
+	alert(jQuery.cookie('testCookie'));
+	var c  = eval(jQuery.cookie('testCookie'));
+//	alert(obj.name + '\n' + obj.boo + '\n' + obj.ary[5]);
+alert(sniIQCookie.ga.length)
+//	obj.func();
+//	alert(obj.jrObj.jrProp2[4])
+//	var f = obj.jrObj.jrProp2[4];
+//	f();
+}
+var obj = {
+	prop: '123',
+	name: 'test',
+	num: 123,
+	boo: false,
+	func: function() { alert('y'); },
+	ary: [2, 3, 4, 5567, 'word', true],
+	jrObj: {
+		jrProp1: 'test',
+		jrProp2: [1, 2, 3, 'test', function() { alert("Who would embed this deep?"); }]
+	}
+};
+
+var sniIQCookie = {
+			ga: [],
+			at: [],
+			clearAnswers: false,
+			domain: ''
+		};
+		
+//var str = $.obj2Cookie(obj, 'obj');
+var str = 'var sniIQCookie =' + obj2String.make(sniIQCookie) + ';';
+alert('Set Cookie: \n' + str);
+jQuery.cookie('testCookie', str, { expires: 1, domain: '', path: '/' });
+});
+</script>
+</head>
+
+<body>
+	<img src="renovation-realitxies-lead-2.jpg" width="400" height="300" />
+	<div class="testCLass">test DIV</div>
+	<div id="objWrap">hello</div>
+	<div id="objWrap2"></div>
+</body>
+</html>

@@ -1,0 +1,1460 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<link rel="stylesheet" type="text/css" href="main.css" />
+<link rel="stylesheet" type="text/css" href="css2.css" />
+<link rel="stylesheet" type="text/css" href="http://search.foodnetwork.com/food/static/sales/creative_base.css" />
+<script language="javascript" type="text/javascript" src="cde_debugger.js"></script>
+
+</head>
+
+<body>
+
+<div id="testWrap">
+	<div id="divTest">
+		<p>
+			regular paragraph
+			<br />
+			<a href="#">anchor inside paragraph</a>
+			<span>span after anchor<a href="#">anchor in span inside paragraph</a></span>
+		</p>
+		<p style="color: #FF0; background-color: #000; padding-bottom: 20px;">regular paragraph with inline styles</p>
+	</div>
+	<p class="specialParagraph">special paragraph</p>
+	<span class="justClass blue">span .justClass<a href="#">&nbsp;anchor inside .justClass</a></span><a href="#">anchor sibling to span .justClass</a>
+	<div id="divTest2">
+		<span>span inside divTest2</span><br />
+		<a href="#">anchor 1 inside divTest2</a><br />
+		<a href="#">anchor 2 inside divTest2</a><br />
+		<a href="#">anchor 3 inside divTest2</a><br />
+		<p class="justClass">
+			paragraph .justClass inside divTest2<br />
+			<a href="http://www.yahoo.com">anchor 4 inside paragraph inside divTest2</a>
+		</p>
+	</div>
+	<div id="image" onclick="window.location.href = 'http://www.google.com';"></div>
+	<img id="test" src="progress_bar.gif" width="100" />
+</div>
+<br />
+</body>
+</html>
+<!--<script language="javascript" type="text/javascript" src="read_styles.js"></script>-->
+<script>
+
+var _scrollTop = 0;
+var _elementInCheck = null;
+var _domInspectorCSS = 'dom_inspector.css';
+
+function styleSheetReader() {
+	this.fontFamilies = [
+		'Arial, Helvetica, sans-serif',
+		'"Arial Sans MS New Roman MS Grande", Helvetica, sans-serif',
+		'caption, Helvetica, sans-serif',
+		'"Comic Sans MS New Roman MS Grande", Helvetica, sans-serif',
+		'"Courier New", Courier, monospace',
+		'cursive, Helvetica, sans-serif',
+		'fantasy, Helvetica, sans-serif',
+		'Geneva, Arial, Helvetica, sans-serif',
+		'Georgia, "Times New Roman", Times, serif',
+		'"Georgia New Roman MS Grande", Helvetica, sans-serif',
+		'Helvetica, Helvetica, sans-serif',
+		'icon, Helvetica, sans-serif',
+		'inherit, Helvetica, sans-serif',
+		'"inherit Sans MS New Roman MS Grande", Helvetica, sans-serif',
+		'"Lucida Grande", Helvetica, sans-serif',
+		'menu, Helvetica, sans-serif',
+		'message-box, Helvetica, sans-serif',
+		'monospace, Helvetica, sans-serif',
+		'sans-serif, Helvetica, sans-serif',
+		'serif, Helvetica, sans-serif',
+		'status-bar, Helvetica, sans-serif',
+		'small-caption, Helvetica, sans-serif',
+		'"Tahoma New Roman MS Grande", Helvetica, sans-serif',
+		'"Times New Roman", Times, serif',
+		'"Times New Roman MS Grande", Helvetica, sans-serif',
+		'"Trebuchet MS", Helvetica, sans-serif',
+		'"Trebuchet MS Grande", Helvetica, sans-serif',
+		'Verdana, Arial, Helvetica, sans-serif',
+		'"Verdana New Roman MS Grande", Helvetica, sans-serif'
+	];
+	this.propertiesAF = [
+		'azimuth',
+		'background',
+		'background-attachment',
+		'background-color',
+		'background-image',
+		'background-position',
+		'background-repeat',
+		'border',
+		'border-bottom',
+		'border-bottom-color',
+		'border-bottom-style',
+		'border-bottom-width',
+		'border-collapse',
+		'border-color',
+		'border-left',
+		'border-left-color',
+		'border-left-style',
+		'border-left-width',
+		'border-right',
+		'border-right-color',
+		'border-right-style',
+		'border-right-width',
+		'border-spacing',
+		'border-style',
+		'border-top',
+		'border-top-color',
+		'border-top-style',
+		'border-top-width',
+		'border-width',
+		'bottom',
+		'caption-side',
+		'clear',
+		'clip',
+		'color',
+		'content',
+		'counter-increment',
+		'counter-reset',
+		'cue',
+		'cue-after',
+		'cue-before',
+		'cursor',
+		'direction',
+		'display',
+		'elevation',
+		'empty-cells',
+		'float',
+		'font',
+		'font-family',
+		'font-size',
+		'font-size-adjust',
+		'font-stretch',
+		'font-style',
+		'font-variant',
+		'font-weight',
+		'height',
+		'left',
+		'letter-spacing',
+		'line-height',
+		'list-style',
+		'list-style-image',
+		'list-style-position',
+		'list-style-type',
+		'margin',
+		'margin-bottom',
+		'margin-left',
+		'margin-right',
+		'margin-top',
+		'marker-offset',
+		'marks',
+		'max-height',
+		'max-width',
+		'min-height',
+		'min-width',
+		'orphans',
+		'outline',
+		'outline-color',
+		'outline-style',
+		'outline-width',
+		'overflow',
+		'padding',
+		'padding-bottom',
+		'padding-left',
+		'padding-right',
+		'padding-top',
+		'page',
+		'page-break-after',
+		'page-break-before',
+		'page-break-inside',
+		'pause',
+		'pause-after',
+		'pause-before',
+		'pitch',
+		'pitch-range',
+		'play-during',
+		'position',
+		'quotes',
+		'richness',
+		'right',
+		'size',
+		'speak',
+		'speak-header',
+		'speak-numeral',
+		'speak-punctuation',
+		'speech-rate',
+		'stress',
+		'table-layout',
+		'text-align',
+		'text-decoration',
+		'text-indent',
+		'text-shadow',
+		'text-transform',
+		'top',
+		'unicode-bidi',
+		'vertical-align',
+		'visibility',
+		'voice-family',
+		'volume',
+		'white-space',
+		'widows',
+		'width',
+		'word-spacing',
+		'z-index'
+	];
+	this._styleSheets = document.styleSheets;
+	this._ruleSet = new Array();
+	this._outputWindow = new SSROutputWindow();
+	this._outputWindow.showDebugWindow();
+	this._newPropCounter = 0;
+	this._ffCounter = 0;
+	for (var i=0; i<this._styleSheets.length; i++) {
+		try {
+			this._rules = this._styleSheets[i].cssRules ? this._styleSheets[i].cssRules : this._styleSheets[i].rules;
+			this._ruleSet[i] = new Object();
+			this._ruleSet[i]._rule = new Array();
+			this._ruleSet[i]._href = this._styleSheets[i].href
+			for (var j=0; j<this._rules.length; j++) {
+				this._ruleSet[i]._rule.push(this._rules[j]);
+			}
+		} catch(e) {
+		}
+	}
+	var noStylePhrase = document.createElement("span");
+	noStylePhrase.id = 'noStylePhrase';
+	noStylePhrase.innerHTML = 'No Styles';
+	this._outputWindow.appendMessage(noStylePhrase);
+	document.body.onmousedown = this.inspectElement;
+}
+
+styleSheetReader.prototype.createPreviewPopup = function(e) {
+	var posx = 0;
+	var posy = 0;
+	if (!e) var e = window.event;
+	if (e.pageX || e.pageY) {
+		posx = e.pageX;
+		posy = e.pageY;
+	}
+	else if (e.clientX || e.clientY) {
+		posx = e.clientX + document.body.scrollLeft	+ document.documentElement.scrollLeft;
+		posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+	}
+	var popupContainer = document.body.appendChild(document.createElement('div'));
+	popupContainer.id = 'popupContainer';
+	popupContainer.style.zIndex = this._this.getHighestZIndex() + 1;
+	switch (this._previewType) {
+		case 'color':
+			popupContainer.className = 'colorPopup';
+			popupContainer.style.background = this.value;
+			popupContainer.style.width = '50px';
+			popupContainer.style.height = '15px';
+			popupContainer.style.border = 'medium double rgb(0, 0, 0)';
+			break;
+		case 'image':
+			popupContainer.className = 'imagePopup';
+			var oImage = document.createElement('img');
+			oImage.src = this._image;
+			var _mW = oImage.width;
+			var _mH = oImage.height;
+			if (oImage.width > 100) {
+				var _ratio = parseFloat(oImage.width / 100);
+				oImage.width = '100';
+				oImage.height = oImage.height / _ratio;
+			}
+			popupContainer.appendChild(oImage);
+			popupContainer.innerHTML += '<br />';
+			popupContainer.innerHTML += _mW + ' x ' + _mH;
+			break;
+	}
+	popupContainer.style.left = posx + 'px';
+	popupContainer.style.top = (posy + 20) + 'px';
+}
+
+styleSheetReader.prototype.destroyPreviewPopup = function() {
+	document.body.removeChild(document.getElementById('popupContainer'));
+}
+styleSheetReader.prototype.getHighestZIndex = function() {
+	var allElements = document.getElementsByTagName("*");
+	var mZindices = new Array();
+	mZindices[0] = 0;
+	for (var i=0; i<allElements.length; i++) {
+		if (allElements[i].nodeType == 1) {
+			if (document.all) {
+				if (allElements[i].currentStyle) {
+					mZIndex = allElements[i].currentStyle["zIndex"];
+					if (!isNaN(mZIndex)) mZindices.push(mZIndex);
+				} else if (window.getComputedStyle) {
+					mZIndex = document.defaultView.getComputedStyle(allElements[i], null).getPropertyValue("zIndex");
+					if (!isNaN(mZIndex)) mZindices.push(mZIndex);
+				}
+			} else {
+				if (allElements[i].currentStyle) {
+					mZIndex = allElements[i].currentStyle["z-index"];
+					if (!isNaN(mZIndex)) mZindices.push(mZIndex);
+				} else if (window.getComputedStyle) {
+					mZIndex = document.defaultView.getComputedStyle(allElements[i], null).getPropertyValue("z-index");
+					if (!isNaN(mZIndex)) mZindices.push(mZIndex);
+				}
+			}
+		}
+	}
+	mZindices = mZindices.sort(this.sortZindex);
+	return parseInt(mZindices[mZindices.length - 1]);
+}
+
+styleSheetReader.prototype.sortZindex = function(a, b) {return a - b;}
+styleSheetReader.prototype.getStyles = function(pElement) {
+	var _mStyles = new Array();
+	if (this._ruleSet) {
+		for (var h=0; h<this._ruleSet.length; h++) {
+			if (this._ruleSet[h] == undefined) continue;
+			if (this._ruleSet[h]._href.indexOf(_domInspectorCSS) != -1) continue;
+			if (this._ruleSet[h]._rule) {
+				for (var i=0; i<this._ruleSet[h]._rule.length; i++) {
+					if (!this._ruleSet[h]._rule[i].selectorText) continue;
+					if (this._ruleSet[h]._rule[i].selectorText.toLowerCase() == 'unknown') continue;
+					this._selectorText = this._ruleSet[h]._rule[i].selectorText;
+					var _splitSelectorText = this._selectorText.split(',');
+					for (var j=0; j<_splitSelectorText.length; j++) {
+						var _currentElement = pElement;
+						var _lastElement = _elementBeforeDC = null;
+						var _matchCounter = 0;
+						var _neededBranch = _mNodeName = '';
+						var _directChildSymbolFound = false;
+						var _eachBranch = _splitSelectorText[j].replace(/^\s+/g, '').replace(/\s+$/g, '').split(' ');
+						_eachBranch.reverse();
+						// go through each branch backwards
+						// div p a
+						// becomes
+						// a p div
+						//for (k=0; k<_eachBranch.length; k++) {
+						while (_matchCounter < _eachBranch.length) {
+							if (!_currentElement) break;
+							if (_currentElement.nodeType != 1) break;
+							if (_currentElement.nodeName == 'BODY') break;
+							var _isID = _isClassName = _isNodeName = _isAdjacent = _isDirectChild = _matchFound = false;
+							// get the needed branch of the selectorText a, p, div, #id etc...
+							_neededBranch = _eachBranch[_matchCounter];
+							if (_eachBranch[_matchCounter].indexOf(':') != -1) _neededBranch = _eachBranch[_matchCounter].split(':')[0];
+							// check for ID
+							if (_neededBranch.indexOf('#') != -1) {
+								_isID = true;
+								if (_currentElement.id) {
+									if (_neededBranch.substring(_neededBranch.indexOf('#') + 1, _neededBranch.length) == _currentElement.id) {
+										if (_directChildSymbolFound) {
+											if (_elementBeforeDC.parentNode == _currentElement) {_matchFound = true; _matchCounter++;}
+										} else {
+											_matchFound = true;
+											_matchCounter++;
+										}
+									}
+								}
+							}
+							// check for ClassName
+							if (_neededBranch.indexOf('.') != -1) {
+								_isClassName = true;
+								for (x=0; x<_currentElement.attributes.length; x++) {
+									if (_currentElement.attributes.item(x).nodeName == 'class') {
+										if (_currentElement.attributes.item(x).nodeValue.indexOf(_neededBranch.substring(1, _neededBranch.length)) != -1) {
+											if (_directChildSymbolFound) {
+												if (_elementBeforeDC.parentNode == _currentElement) {_matchFound = true; _matchCounter++;}
+											} else {
+												_matchFound = true;
+												_matchCounter++;
+											}
+										}
+									}
+								}
+							}
+							if (_neededBranch == '+') {_currentElement = _lastElement.previousSibling.previousSibling; _matchCounter++; continue;}
+							if (_neededBranch == '>') {_directChildSymbolFound = true; _elementBeforeDC = _lastElement; _currentElement = _lastElement; _matchCounter++; continue;}
+							if (!_isID && !_isClassName && !_isAdjacent && !_isDirectChild) {_isNodeName = true; _mNodeName = _neededBranch.toLowerCase();}
+							if (_isNodeName) if (_mNodeName == _currentElement.nodeName.toLowerCase()) {_matchFound = true; _matchCounter++;}
+							// if a match is found then
+							// see if we have checked each branch
+							// if so then write to cssText
+							// if not then goto the next branch while moving through the DOM
+							if (_matchFound) {
+								if (_matchCounter == _eachBranch.length) {
+									if (document.all) {
+										var _temp2 = this._ruleSet[h]._rule[i].style.cssText.split(';');
+										var _cssText = '';
+										for (var y=0; y<_temp2.length; y++) {
+											var _cssTextDefinition = _temp2[y].split(':')[0].toLowerCase();
+											var _cssTextProperty = _temp2[y].split(':')[1];
+											_cssText += _cssTextDefinition + ':' + _cssTextProperty + ';';
+										}
+										var _tempSelectorText = _splitSelectorText[j].split(' ');
+										var _newSelectorText = '';
+										for (var x=0; x<_tempSelectorText.length; x++) {
+											var _idY = false;
+											var _clY = false;
+											if (_tempSelectorText[x].indexOf('#') != -1) {
+												if ( _tempSelectorText[x].split('#').length > 1) {_idY = true; _newSelectorText +=  _tempSelectorText[x].split('#')[0].toLowerCase() + '#' +  _tempSelectorText[x].split('#')[1];}
+											}
+											if (_tempSelectorText[x].indexOf('.') != -1) {
+												if ( _tempSelectorText[x].split('.').length > 1) {_clY = true; _newSelectorText +=  _tempSelectorText[x].split('.')[0].toLowerCase() + '.' +  _tempSelectorText[x].split('.')[1];}
+											}
+											if (_tempSelectorText[x] == '>' || _tempSelectorText[x] == '+') continue;
+											if (!_idY && !_clY) _newSelectorText = _tempSelectorText[x].toLowerCase();
+										}
+										//_mStyles.push(this.createRule(_splitSelectorText[j], _cssText, this._ruleSet[h]._href));
+										_mStyles.push(this.createRule(_newSelectorText, _cssText, this._ruleSet[h]._href));
+									} else {
+										_mStyles.push(this.createRule(_splitSelectorText[j], this._ruleSet[h]._rule[i].style.cssText, this._ruleSet[h]._href));
+									}
+								}
+							} else {
+								// if no match was found and we're on the first branch,
+								// let's break out of the loop
+								if (_matchCounter == 0) {break;}
+							}
+							_lastElement = _currentElement;
+							_currentElement = _currentElement.parentNode;
+						}
+						
+					}
+				}
+			}
+		}
+	}
+	for (var i=0; i<pElement.attributes.length; i++) if (pElement.attributes.item(i).nodeName == 'style') if (pElement.attributes.item(i).nodeValue) _mStyles.push(pElement.attributes.item(i).nodeValue);
+	return _mStyles;
+}
+
+styleSheetReader.prototype.inspectElement = function(event) {
+	if (event == null) event = window.event;
+	var target = event.target != null ? event.target : event.srcElement;
+	var _button = 0;
+	if (document.all) _button = 1
+	if (event.button == _button) {
+		var _node = target;
+		if (_node.nodeType != 1) return;
+		while (_node) {
+			if (_node.id == 'outputWindowContainer') return;
+			_node = _node.parentNode;
+		}
+		_mStyleReader.matchStyles(target);
+	}
+}
+
+styleSheetReader.prototype.showCssFiles = function() {
+	this._outputWindow.clearSSOutputWindow();
+	this._outputStr = '';
+	var oSSOutputContainer = document.createElement('div');
+	oSSOutputContainer.id = 'oSSOutputContainer';
+	for (var i=0; i<this._ruleSet.length; i++) {
+		if (this._ruleSet[i] == undefined) continue;
+		if (this._ruleSet[i]._href.indexOf(_domInspectorCSS) != -1) continue;
+		if (this._ruleSet[i]._rule) {
+			this._cssFileName = '';
+			var isIndexOf = this._ruleSet[i]._href.lastIndexOf('/');
+			if (isIndexOf != -1) this._cssFileName = this._ruleSet[i]._href.substring(isIndexOf + 1, this._ruleSet[i]._href.length);
+			else this._cssFileName = this._ruleSet[i]._href;
+			this._outputStr += '<a class="cssHrefConatiner" href="' + this._ruleSet[i]._href + '" target="_blank">' + this._cssFileName + '</a><br />';
+			for (var j=0; j<this._ruleSet[i]._rule.length; j++) {
+				if (!this._ruleSet[i]._rule[j].selectorText) continue;
+				if (this._ruleSet[i]._rule[j].selectorText.toLowerCase() == 'unknown') continue;
+				this._outputStr += this._ruleSet[i]._rule[j].selectorText + ' {<br />';
+				var temp = this._ruleSet[i]._rule[j].style.cssText.split(';');
+				if (document.all) {
+					for (var k=0; k<temp.length; k++) if (temp[k] != '') this._outputStr += '<span style="color: #00F; padding-left: 20px;">' + temp[k] + ';</span><br />';
+				} else {
+					for (var k=0; k<temp.length - 1; k++) this._outputStr += '<span style="color: #00F; padding-left: 20px;">' + temp[k] + ';</span><br />';
+				}
+				this._outputStr += '}<br /><br />';
+			}
+		}
+	}
+	oSSOutputContainer.innerHTML = this._outputStr;
+	this._outputWindow.ssOutputAppendMessage(oSSOutputContainer);
+}
+
+styleSheetReader.prototype.getLineNumber = function(pSelectorText) {
+	for (var i=0; i<this._styleSheets.length; i++) {
+		try {
+			var _rules = this._styleSheets[i].cssRules ? this._styleSheets[i].cssRules : this._styleSheets[i].rules;
+			for (var j=0; j<_rules.length; j++) {
+				var _rule = _rules[j];
+				if (_rule) {
+					for (var k=0; k<this._rule.length; k++) {
+						if (!this._rule[k].selectorText) continue;
+						if (this._rule[k].selectorText.toLowerCase() == 'unknown') continue;
+						if (_rules[k].selectorText == pSelectorText) return k + 1;
+					}
+				}
+			}
+		} catch(e) {}
+	}
+	return '';
+}
+
+var dCounter = 0;
+styleSheetReader.prototype.createRule = function(pSelectorText, pCssText, pSSHref) {
+	var _allCssText = pCssText.replace(/^\s+/g, '').replace(/\s+$/g, '').split(';');
+	var cssRuleContainer = document.createElement('div');
+	cssRuleContainer.id = 'cssRuleContainer' + dCounter;
+	cssRuleContainer.className = 'cssRuleContainer';
+	dCounter++;
+	var _cssFileName = '';
+	if (pSSHref.lastIndexOf('/') != -1) _cssFileName = pSSHref.substring(pSSHref.lastIndexOf('/') + 1, pSSHref.length);
+	else _cssFileName = pSSHref;
+	var cssHrefConatiner = document.createElement('a');
+	cssHrefConatiner.className = 'cssHrefConatiner';
+	cssHrefConatiner.href = pSSHref;
+	cssHrefConatiner.target = '_blank';
+	cssHrefConatiner.innerHTML = _cssFileName + '<br />';
+	cssRuleContainer.appendChild(cssHrefConatiner);
+	
+	var cssSelectorTextContainer = document.createElement('span');
+	cssSelectorTextContainer.id = 'cssSelectorTextContainer';
+	cssSelectorTextContainer.innerHTML = pSelectorText + ' {<br />';
+	cssRuleContainer.appendChild(cssSelectorTextContainer);
+	for (var i=0; i<_allCssText.length; i++) {
+		if (_allCssText[i] != '') {
+			var _strikethrough = '';
+			var _isApplied = this.isApplied(_allCssText[i]);
+			if (_allCssText[i].indexOf('rgb(') != -1) {
+				_allCssText[i] = _allCssText[i].replace('rgb(', '').replace(')', '');
+				var _temp = _allCssText[i].split(':')[1].split(',');
+				var r = parseInt(_temp[0]).toString(16).toUpperCase();
+				var g = parseInt(_temp[1]).toString(16).toUpperCase();
+				var b = parseInt(_temp[2]).toString(16).toUpperCase();
+				if (r.length == 1) r = 0 + r;
+				if (g.length == 1) g = 0 + g;
+				if (b.length == 1) b = 0 + b;
+				var _new = '#' + r + g + b;
+				_allCssText[i] = _allCssText[i].split(':')[0] + ': ' + _new;
+			}
+			if (!_isApplied) {
+				_strikethrough = 'line-through';
+				if (_allCssText[i].indexOf('rgb(') != -1) {
+					_allCssText[i] = _allCssText[i].replace('rgb(', '').replace(')', '');
+					var _temp = _allCssText[i].split(':')[1].split(',');
+					var r = parseInt(_temp[0]).toString(16).toUpperCase();
+					var g = parseInt(_temp[1]).toString(16).toUpperCase();
+					var b = parseInt(_temp[2]).toString(16).toUpperCase();
+					if (r.length == 1) r = 0 + r;
+					if (g.length == 1) g = 0 + g;
+					if (b.length == 1) b = 0 + b;
+					var _new = '#' + r + g + b;
+					_allCssText[i] = _allCssText[i].split(':')[0] + ': ' + _new;
+				}
+			} else {
+				if (_allCssText[i].indexOf('url(') != -1) {
+					var _image = _allCssText[i].substring(_allCssText[i].indexOf('url(') + 4, _allCssText[i].indexOf(')', _allCssText[i].indexOf('url(')));
+					//_elementInCheck = this._elementToCheck;
+					if (document.all) _image = _image.replace(/"/g, '');
+				}
+			}
+			var _cssTextProperty = _allCssText[i].split(':')[0];
+			var _cssTextValue = _allCssText[i].split(':')[1];
+			
+			var _mPWidth = 6 * _cssTextProperty.length;
+			var _mVWidth = 6 *  _cssTextValue.length;
+			this.createPropertyValueSet(cssRuleContainer, this, false, _mPWidth, _cssTextProperty, _cssTextProperty, _mVWidth, _cssTextValue, _strikethrough, _cssTextProperty, _image, this._elementToCheck);
+		}
+	}
+	this._outputWindow.appendMessage(document.createElement('br'));
+	this._outputWindow.appendMessage(cssRuleContainer);
+	var oEndBracketSpan = document.createElement('span')
+	oEndBracketSpan.className = 'oEndBracketSpan';
+	oEndBracketSpan.innerHTML = '}<br />';
+	this._outputWindow.appendMessage(oEndBracketSpan);
+}
+
+styleSheetReader.prototype.showDisabled = function() {
+	if (!this._on) this.className = 'disableSpanShow';
+}
+
+styleSheetReader.prototype.hideDisabled = function() {
+	if (!this._on) this.className = 'disableSpan';
+}
+
+styleSheetReader.prototype.getDefaults = function(pElement, pValue) {
+	var _return = '';
+	var _browserStyle = '';
+	while (pElement = pElement.parentNode) {
+		if (pElement.nodeName == 'BODY') break;
+		if (document.all) {
+			if (pElement.currentStyle) {_browserStyle = pElement.currentStyle[this.convertCssProperty(pValue)]; break;}
+			else if (window.getComputedStyle) {_browserStyle = document.defaultView.getComputedStyle(pElement, null).getPropertyValue(this.convertCssProperty(pValue)); break;}
+		} else {
+			if (pElement.currentStyle) {_browserStyle = pElement.currentStyle[pValue]; break;}
+			else if (window.getComputedStyle) {_browserStyle = document.defaultView.getComputedStyle(pElement, null).getPropertyValue(pValue); break;}
+		}
+	}
+	var _defaults = new Array();
+	_defaults['azimuth'] = 'center';
+	_defaults['background'] = '';
+	_defaults['background-attachment'] = 'scroll';
+	_defaults['background-color'] = 'transparent';
+	_defaults['background-image'] = 'none';
+	_defaults['background-position'] = '0% 0%';
+	_defaults['background-repeat'] = 'repeat';
+	_defaults['border'] = '';
+	_defaults['border-bottom'] = '';
+	_defaults['border-bottom-color'] = '';
+	_defaults['border-bottom-style'] = 'none';
+	_defaults['border-bottom-width'] = 'medium';
+	_defaults['border-collapse'] = 'separate';
+	_defaults['border-color'] = '';
+	_defaults['border-left'] = '';
+	_defaults['border-left-color'] = '';
+	_defaults['border-left-style'] = 'none';
+	_defaults['border-left-width'] = 'medium';
+	_defaults['border-right'] = '';
+	_defaults['border-right-color'] = '';
+	_defaults['border-right-style'] = 'none';
+	_defaults['border-right-width'] = 'medium';
+	_defaults['border-spacing'] = '0';
+	_defaults['border-style'] = '';
+	_defaults['border-top'] = '';
+	_defaults['border-top-color'] = '';
+	_defaults['border-top-style'] = 'none';
+	_defaults['border-top-width'] = 'medium';
+	_defaults['border-width'] = '';
+	_defaults['bottom'] = 'auto';
+	_defaults['caption-side'] = 'top';
+	_defaults['clear'] = 'none';
+	_defaults['clip'] = 'auto';
+	_defaults['color'] = 'black'; // user agent specified
+	_defaults['content'] = 'normal';
+	_defaults['counter-increment'] = ''; // user agent dependant
+	_defaults['counter-reset'] = ''; // user agent dependant
+	_defaults['cue'] = '';
+	_defaults['cue-after'] = 'none';
+	_defaults['cue-before'] = 'none';
+	_defaults['cursor'] = 'auto';
+	_defaults['direction'] = 'ltr';
+	_defaults['display'] = 'inline'; // will probably required some programming although books says inline for all elements
+	_defaults['elevation'] = 'level';
+	_defaults['empty-cells'] = 'show';
+	_defaults['float'] = 'none';
+	_defaults['font'] = '';
+	_defaults['font-family'] = 'Arial'; // user agent specified
+	_defaults['font-size'] = 'medium';
+	_defaults['font-size-adjust'] = 'none';
+	_defaults['font-stretch'] = 'normal';
+	_defaults['font-style'] = 'normal';
+	_defaults['font-variant'] = 'normal';
+	_defaults['font-weight'] = 'normal';
+	_defaults['height'] = 'auto';
+	_defaults['left'] = 'auto';
+	_defaults['letter-spacing'] = 'normal';
+	_defaults['line-height'] = 'normal';
+	_defaults['list-style'] = '';
+	_defaults['list-style-image'] = 'none';
+	_defaults['list-style-position'] = 'outside';
+	_defaults['list-style-type'] = 'disc';
+	_defaults['margin'] = '0'; // not defined
+	_defaults['margin-bottom'] = '0';
+	_defaults['margin-left'] = '0';
+	_defaults['margin-right'] = '0';
+	_defaults['margin-top'] = '0';
+	_defaults['marker-offset'] = 'auto';
+	_defaults['marks'] = 'none';
+	_defaults['max-height'] = 'none';
+	_defaults['max-width'] = 'none';
+	_defaults['min-height'] = '0';
+	_defaults['min-width'] = '0';
+	_defaults['orphans'] = '2';
+	_defaults['outline'] = '';
+	_defaults['outline-color'] = 'invert'; // or user agent specific
+	_defaults['outline-style'] = 'none';
+	_defaults['outline-width'] = 'medium';
+	_defaults['overflow'] = 'visile';
+	_defaults['padding'] = '0';
+	_defaults['padding-bottom'] = '0';
+	_defaults['padding-left'] = '0';
+	_defaults['padding-right'] = '0';
+	_defaults['padding-top'] = '0';
+	_defaults['page'] = 'auto';
+	_defaults['page-break-after'] = 'auto';
+	_defaults['page-break-before'] = 'auto';
+	_defaults['page-break-inside'] = 'auto';
+	_defaults['pause'] = '0';
+	_defaults['pause-after'] = '0';
+	_defaults['pause-before'] = '0';
+	_defaults['pitch'] = 'medium';
+	_defaults['pitch-range'] = '50';
+	_defaults['play-during'] = 'auto';
+	_defaults['position'] = 'static';
+	_defaults['quotes'] = ''; // user agent dependant
+	_defaults['richness'] = '50';
+	_defaults['right'] = 'auto';
+	_defaults['size'] = 'auto';
+	_defaults['speak'] = 'normal';
+	_defaults['speak-header'] = 'once';
+	_defaults['speak-numeral'] = 'continuous';
+	_defaults['speak-punctuation'] = 'none';
+	_defaults['speech-rate'] = 'medium';
+	_defaults['stress'] = '50';
+	_defaults['table-layout'] = 'auto';
+	_defaults['text-align'] = 'inherit'; // // user agent spcific; may also depend on writing direction
+	_defaults['text-decoration'] = 'none';
+	_defaults['text-indent'] = '0';
+	_defaults['text-shadow'] = 'none';
+	_defaults['text-transform'] = 'none';
+	_defaults['top'] = 'auto';
+	_defaults['unicode-bidi'] = 'normal';
+	_defaults['vertical-align'] = 'baseline';
+	_defaults['visibility'] = 'inherit';
+	_defaults['voice-family'] = ''; // user agent dependant
+	_defaults['volume'] = 'medium';
+	_defaults['white-space'] = 'normal';
+	_defaults['widows'] = '2';
+	_defaults['width'] = 'auto';
+	_defaults['word-spacing'] = 'normal';
+	_defaults['z-index'] = 'auto';
+
+	_return = _browserStyle != '' ? _browserStyle : _defaults[pValue];
+	if (_return == undefined) _return = _defaults[pValue];
+	
+	return _return;
+}
+
+// method::convertCssProperty(pString)
+// converts a css property to JS syntax
+// Example: font-size returns fontSize
+styleSheetReader.prototype.convertCssProperty = function(pString) {
+	var _inString = pString.replace(/\s/g, '');
+	var _return = '';
+	var _letter = '';
+	var _dashFound = false;
+	for (var i=0; i<_inString.length; i++) {
+		if (_dashFound) _letter = _inString.charAt(i).toUpperCase();
+		else _letter = _inString.charAt(i);
+		_dashFound = false;
+		if (_inString.charAt(i) == '-') {_dashFound = true; continue;}
+		_return += _letter;
+	}
+	return _return;
+}
+
+styleSheetReader.prototype.clickDisabled = function() {
+	if (!this._on) 	{
+		this._on = true;
+		this.className = 'disableSpanOn';
+		this._holdValue = this._value.value;
+		switch (this._property.value) {
+			case 'background': {
+				eval("this._property._currentElement.style.backgroundAttachment = '" + this._this.getDefaults(this._property._currentElement, 'background-attachment') + "';");
+				eval("this._property._currentElement.style.backgroundColor = '" + this._this.getDefaults(this._property._currentElement, 'background-color') + "';");
+				eval("this._property._currentElement.style.backgroundImage = '" + this._this.getDefaults(this._property._currentElement, 'background-image') + "';");
+				eval("this._property._currentElement.style.backgroundPosition = '" + this._this.getDefaults(this._property._currentElement, 'background-position') + "';");
+				eval("this._property._currentElement.style.backgroundRepeat = '" + this._this.getDefaults(this._property._currentElement, 'background-repeat') + "';");
+				break;
+			}
+			case 'border': {
+				eval("this._property._currentElement.style.borderBottomColor = '" + this._this.getDefaults(this._property._currentElement, 'border-bottom-color') + "';");
+				eval("this._property._currentElement.style.borderBottomStyle = '" + this._this.getDefaults(this._property._currentElement, 'border-bottom-style') + "';");
+				eval("this._property._currentElement.style.borderBottomWidth = '" + this._this.getDefaults(this._property._currentElement, 'border-bottom-width') + "';");
+				eval("this._property._currentElement.style.borderCollapse = '" + this._this.getDefaults(this._property._currentElement, 'border-collapse') + "';");
+				eval("this._property._currentElement.style.borderLeftColor = '" + this._this.getDefaults(this._property._currentElement, 'border-left-color') + "';");
+				eval("this._property._currentElement.style.borderLeftStyle = '" + this._this.getDefaults(this._property._currentElement, 'border-left-style') + "';");
+				eval("this._property._currentElement.style.borderLeftWidth = '" + this._this.getDefaults(this._property._currentElement, 'border-left-width') + "';");
+				eval("this._property._currentElement.style.borderRightColor = '" + this._this.getDefaults(this._property._currentElement, 'border-right-color') + "';");
+				eval("this._property._currentElement.style.borderRightStyle = '" + this._this.getDefaults(this._property._currentElement, 'border-right-style') + "';");
+				eval("this._property._currentElement.style.borderRightWidth = '" + this._this.getDefaults(this._property._currentElement, 'border-right-width') + "';");
+				eval("this._property._currentElement.style.borderSpacing = '" + this._this.getDefaults(this._property._currentElement, 'border-spacing') + "';");
+				eval("this._property._currentElement.style.borderTopColor = '" + this._this.getDefaults(this._property._currentElement, 'border-top-color') + "';");
+				eval("this._property._currentElement.style.borderTopStyle = '" + this._this.getDefaults(this._property._currentElement, 'border-top-style') + "';");
+				eval("this._property._currentElement.style.borderTopWidth = '" + this._this.getDefaults(this._property._currentElement, 'border-top-width') + "';");
+				break;
+			}
+			case 'border-bottom': {
+				eval("this._property._currentElement.style.borderBottomColor = '" + this._this.getDefaults(this._property._currentElement, 'border-bottom-color') + "';");
+				eval("this._property._currentElement.style.borderBottomStyle = '" + this._this.getDefaults(this._property._currentElement, 'border-bottom-style') + "';");
+				eval("this._property._currentElement.style.borderBottomWidth = '" + this._this.getDefaults(this._property._currentElement, 'border-bottom-width') + "';");
+				break;
+			}
+			case 'border-color': {
+				eval("this._property._currentElement.style.borderBottomColor = '" + this._this.getDefaults(this._property._currentElement, 'border-bottom-color') + "';");
+				eval("this._property._currentElement.style.borderLeftColor = '" + this._this.getDefaults(this._property._currentElement, 'border-left-color') + "';");
+				eval("this._property._currentElement.style.borderRightColor = '" + this._this.getDefaults(this._property._currentElement, 'border-right-color') + "';");
+				eval("this._property._currentElement.style.borderTopColor = '" + this._this.getDefaults(this._property._currentElement, 'border-top-color') + "';");
+				break;
+			}
+			case 'border-left': {
+				eval("this._property._currentElement.style.borderLeftColor = '" + this._this.getDefaults(this._property._currentElement, 'border-left-color') + "';");
+				eval("this._property._currentElement.style.borderLeftStyle = '" + this._this.getDefaults(this._property._currentElement, 'border-left-style') + "';");
+				eval("this._property._currentElement.style.borderLeftWidth = '" + this._this.getDefaults(this._property._currentElement, 'border-left-width') + "';");
+				break;
+			}
+			case 'border-right': {
+				eval("this._property._currentElement.style.borderRightColor = '" + this._this.getDefaults(this._property._currentElement, 'border-right-color') + "';");
+				eval("this._property._currentElement.style.borderRightStyle = '" + this._this.getDefaults(this._property._currentElement, 'border-right-style') + "';");
+				eval("this._property._currentElement.style.borderRightWidth = '" + this._this.getDefaults(this._property._currentElement, 'border-right-width') + "';");
+				break;
+			}
+			case 'border-style': {
+				eval("this._property._currentElement.style.borderBottomStyle = '" + this._this.getDefaults(this._property._currentElement, 'border-bottom-style') + "';");
+				eval("this._property._currentElement.style.borderLeftStyle = '" + this._this.getDefaults(this._property._currentElement, 'border-left-style') + "';");
+				eval("this._property._currentElement.style.borderRightStyle = '" + this._this.getDefaults(this._property._currentElement, 'border-right-style') + "';");
+				eval("this._property._currentElement.style.borderTopStyle = '" + this._this.getDefaults(this._property._currentElement, 'border-top-style') + "';");
+				break;
+			}
+			case 'border-top': {
+				eval("this._property._currentElement.style.borderTopColor = '" + this._this.getDefaults(this._property._currentElement, 'border-top-color') + "';");
+				eval("this._property._currentElement.style.borderTopStyle = '" + this._this.getDefaults(this._property._currentElement, 'border-top-style') + "';");
+				eval("this._property._currentElement.style.borderTopWidth = '" + this._this.getDefaults(this._property._currentElement, 'border-top-width') + "';");
+				break;
+			}
+			case 'border-width': {
+				eval("this._property._currentElement.style.borderBottomWidth = '" + this._this.getDefaults(this._property._currentElement, 'border-bottom-width') + "';");
+				eval("this._property._currentElement.style.borderLeftWidth = '" + this._this.getDefaults(this._property._currentElement, 'border-left-width') + "';");
+				eval("this._property._currentElement.style.borderRightWidth = '" + this._this.getDefaults(this._property._currentElement, 'border-right-width') + "';");
+				eval("this._property._currentElement.style.borderTopWidth = '" + this._this.getDefaults(this._property._currentElement, 'border-top-width') + "';");
+				break;
+			}
+			case 'list-style': {
+				eval("this._property._currentElement.style.listStyleImage = '" + this._this.getDefaults(this._property._currentElement, 'list-style-image') + "';");
+				eval("this._property._currentElement.style.listStylePosition = '" + this._this.getDefaults(this._property._currentElement, 'list-style-position') + "';");
+				eval("this._property._currentElement.style.listStyleType = '" + this._this.getDefaults(this._property._currentElement, 'list-style-type') + "';");
+				break;
+			}
+			case 'font': {
+				eval("this._property._currentElement.style.fontFamily = '" + this._this.getDefaults(this._property._currentElement, 'font-family') + "';");
+				eval("this._property._currentElement.style.fontSize = '" + this._this.getDefaults(this._property._currentElement, 'font-size') + "';");
+				eval("this._property._currentElement.style.fontSizeAdjust = '" + this._this.getDefaults(this._property._currentElement, 'font-size-adjust') + "';");
+				eval("this._property._currentElement.style.fontStretch = '" + this._this.getDefaults(this._property._currentElement, 'font-stretch') + "';");
+				eval("this._property._currentElement.style.fontStyle = '" + this._this.getDefaults(this._property._currentElement, 'font-style') + "';");
+				eval("this._property._currentElement.style.fontVariant = '" + this._this.getDefaults(this._property._currentElement, 'font-variant') + "';");
+				eval("this._property._currentElement.style.fontWeight = '" + this._this.getDefaults(this._property._currentElement, 'font-weight') + "';");
+				break;
+			}
+			default:
+				eval("this._property._currentElement.style." + this._this.convertCssProperty(this._property.value) + " = '" + this._this.getDefaults(this._property._currentElement, this._property.value) + "';");
+				break;
+		}
+		this._property.disabled = true;
+		this._property.className = 'oPropertyDisabled';
+		this._value.disabled = true;
+		this._value.className = 'oValueDisabled';
+	} else {
+		this._on = false;
+		this.className = 'disableSpan';
+		eval("this._property._currentElement.style." + this._this.convertCssProperty(this._property.value) + " = '" + this._holdValue + "';");
+		this._property.disabled = false;
+		this._property.className = 'oProperty';
+		this._value.disabled = false;
+		this._value.className = 'oValue';
+	}
+}
+
+styleSheetReader.prototype.createPropertyValueSet = function(pContainer, pThis, isCreatedNew, pPropertyWidth, pPropertyValue, pPropertyOldValue, pValueWidth, pValueValue, pStrikeThrough, pPropertyToChange, pImage, pElementToCheck) {
+	// create an ID
+	var _mID = 'rule' + this._newPropCounter;
+	
+	// create the containing span
+	var oCssTextSpan = pContainer.appendChild(document.createElement('span'));
+	oCssTextSpan.id = _mID;
+	oCssTextSpan.className = 'oCssTextSpan';
+	oCssTextSpan._this = this;
+	
+	var disableSpan = oCssTextSpan.appendChild(document.createElement('div'));
+	disableSpan.id = 'disableRule' + this._newPropCounter;
+	disableSpan.className = 'disableSpan';
+	disableSpan.onmouseover = this.showDisabled;
+	disableSpan.onmouseout = this.hideDisabled;
+	disableSpan.onclick = this.clickDisabled;
+	disableSpan._this = this;
+	disableSpan._rule = oCssTextSpan;
+	disableSpan._on = false;
+	disableSpan._holdValue = '';
+	disableSpan._elementToCheck = pElementToCheck;
+	
+	// create the property textbox
+	var oProperty = document.createElement('input');
+	oProperty.type = 'text';
+	oProperty.className = 'oProperty';
+	if (pPropertyWidth != '') {
+		if (pPropertyWidth > 150) oProperty.style.width = '150px';
+		else oProperty.style.width = pPropertyWidth + 'px';
+	} else {
+		oProperty.style.width = '75px';
+	}
+	if (pPropertyValue != '') oProperty.value = pPropertyValue.replace(/^\s+/g, '');
+	else oProperty.value = '';
+	oProperty.style.textDecoration = pStrikeThrough;
+	oProperty._this = this;
+	oProperty.onfocus = function() {this.style.border = '1px solid #FFF';}
+	oProperty.onblur = this.checkProperty;
+	oProperty.onkeyup = this.changeRuleProperty;
+	oProperty._parentID = _mID;
+	oProperty._parentContainerID = pContainer.id;
+	oProperty._currentElement = pThis._currentElement;
+	oProperty._selectorText = pThis._selectorText;
+	if (pPropertyOldValue != '') oProperty._oldValue = pPropertyOldValue.replace(/^\s+/g, '');
+	else oProperty._oldValue = '';
+	oCssTextSpan.appendChild(oProperty);
+	oCssTextSpan.appendChild(document.createTextNode(' : '));
+	
+	// create the value textbox
+	var oValue = document.createElement('input');
+	oValue.type = 'text';
+	oValue.className = 'oValue';
+	if (pValueWidth != '') {
+		if (pValueWidth > 250) oValue.style.width = '250px';
+		else oValue.style.width = pValueWidth + 'px';
+	} else {
+		oValue.style.width = '75px';
+	}
+	if (pValueValue != '') oValue.value = pValueValue.substring(1, pValueValue.length);
+	else oValue.value = 'undefined';
+	oValue.style.textDecoration = pStrikeThrough;
+	oValue._this = this;
+	if (pValueValue.indexOf('#') != -1) {
+		oValue._previewType = 'color';
+		oValue.onmouseover = this.createPreviewPopup;
+		oValue.onmouseout = function() {this._this.destroyPreviewPopup();}
+		oValue.style.curosr = 'pointer';
+	}
+	if (pValueValue.indexOf('url(') != -1) {
+		oValue._previewType = 'image';
+		oValue.onmouseover = this.createPreviewPopup;
+		if (pImage != '') oValue._image = pImage;
+		oValue.onmouseout = function() {this._this.destroyPreviewPopup();}
+		oValue.style.curosr = 'pointer';
+	}
+	oValue.onfocus = function() {this.style.border = '1px solid #FFF';}
+	oValue.onblur = this.checkValue;
+	oValue._currentElement = pThis._currentElement;
+	oValue._selectorText = pThis._selectorText;
+	if (pPropertyToChange != '') oValue._propertyToChange = pPropertyToChange;
+	else oValue._propertyToChange = '';
+	oValue.onkeyup = this.changeRuleValue;
+	oValue._parentID = _mID;
+	oValue._parentContainerID = pContainer.id;
+	oValue._sibling = oProperty;
+	oValue._elementToCheck = pElementToCheck;
+	oCssTextSpan.appendChild(oValue);
+	
+	// attach the property and value textboxes to the containing span
+	var _br = oCssTextSpan.appendChild(document.createElement('br'));
+	_br.style.clear = 'left';
+	
+	oProperty._sibling = oValue;
+	oProperty._value = oValue.value;
+	if (isCreatedNew) {
+		oProperty.style.border = '1px solid #FFF';
+		oProperty.focus();
+	}
+	disableSpan._property = oProperty;
+	disableSpan._value = oValue;
+	
+	this._newPropCounter++;
+}
+
+styleSheetReader.prototype.changeRuleValue = function(e) {
+	var KeyID = document.all?window.event.keyCode:e.keyCode;
+	var hasPX = false;
+	var prop = this._sibling.value.replace(/\s/g, '');
+	if (prop.indexOf('-') != -1) {var pos = prop.indexOf('-'); prop = prop.substring(0, pos) + prop.substring(pos + 1, pos + 2).toUpperCase() + prop.substring(pos + 2, prop.length);}
+	switch (KeyID) {
+		case 38:
+			if (this.value.indexOf('px') != -1) {hasPX = true; var mNum =  parseInt(this.value.substring(0, this.value.indexOf('px'))); var mPX = this.value.substring(this.value.indexOf('px'), this.value.length);}
+			if (this.value.indexOf('pt') != -1) {hasPX = true; var mNum =  parseInt(this.value.substring(0, this.value.indexOf('pt'))); var mPX = this.value.substring(this.value.indexOf('pt'), this.value.length);}
+			if (this.value.indexOf('em') != -1) {hasPX = true; var mNum =  parseInt(this.value.substring(0, this.value.indexOf('em'))); var mPX = this.value.substring(this.value.indexOf('em'), this.value.length);}
+			if (hasPX) {mNum++; this.value = mNum.toString() + mPX; eval('this._currentElement.style.' + prop + ' = \'' + this.value + '\';');}
+			if (prop == 'fontFamily') {if (this._this._ffCounter < 0) this._this._ffCounter = this._this.fontFamilies.length - 1; this.value = this._this.fontFamilies[this._this._ffCounter]; eval('this._currentElement.style.' + prop + ' = \'' + this.value + '\';'); this._this._ffCounter--;}
+			break;
+		case 40:
+			if (this.value.indexOf('px') != -1) {hasPX = true; var mNum =  parseInt(this.value.substring(0, this.value.indexOf('px'))); var mPX = this.value.substring(this.value.indexOf('px'), this.value.length);}
+			if (this.value.indexOf('pt') != -1) {hasPX = true; var mNum =  parseInt(this.value.substring(0, this.value.indexOf('pt'))); var mPX = this.value.substring(this.value.indexOf('pt'), this.value.length);}
+			if (this.value.indexOf('em') != -1) {hasPX = true; var mNum =  parseInt(this.value.substring(0, this.value.indexOf('em'))); var mPX = this.value.substring(this.value.indexOf('em'), this.value.length);}
+			if (hasPX) {mNum--; this.value = mNum.toString() + mPX; eval('this._currentElement.style.' + prop + ' = \'' + this.value + '\';');}
+			if (prop == 'fontFamily') {if (this._this._ffCounter >= this._this.fontFamilies.length) this._this._ffCounter = 0; this.value = this._this.fontFamilies[this._this._ffCounter]; eval('this._currentElement.style.' + prop + ' = \'' + this.value + '\';'); this._this._ffCounter++;}
+			break;
+		case 13:
+			if (this._currentElement) {
+				if (this.value != '') eval('this._currentElement.style.' + prop + ' = \'' + this.value + '\';');
+				this.style.border = 'none';
+			}
+			if (this.style.border.indexOf('none') != -1 || this.style.border == '') {
+				var _mContainer = document.getElementById(this._parentContainerID);
+				if (_mContainer.lastChild.id == this._parentID) {
+					this._this.createPropertyValueSet(_mContainer, this, true, '', '', '', '', '', '', '', '', this._elementToCheck);
+				}
+			}
+			break;
+	}
+	var _mVWidth = 8 *  this.value.length;
+	this.style.width = _mVWidth + 'px';
+}
+
+styleSheetReader.prototype.checkProperty = function() {
+	this.style.border = 'none';
+	if (this.value == '') {
+		if (this._this._ruleSet) {
+			for (var h=0; h<this._this._ruleSet.length; h++) {
+				if (this._this._ruleSet[h] == undefined) continue;
+				if (this._this._ruleSet[h]._href.indexOf(_domInspectorCSS) != -1) continue;
+				if (this._this._ruleSet[h]._rule) {
+					for (var j=0; j<this._this._ruleSet[h]._rule.length; j++) {
+						if (!this._this._ruleSet[h]._rule[j].selectorText) continue;
+						if (this._this._ruleSet[h]._rule[j].selectorText.toLowerCase() == 'unknown') continue;
+						var _selectorText = this._this._ruleSet[h]._rule[j].selectorText;
+						if (_selectorText == this._selectorText) {
+							var _newStr = '';
+							var _rule = this._this._ruleSet[h]._rule[j].style.cssText.split(';');
+							for (var k=0; k<_rule.length; k++) if (_rule[k].split(':')[0].replace(/\s/g, '').toLowerCase() != this._oldValue) if (_rule[k].split(':')[0] != '') _newStr += _rule[k].split(':')[0] + ':' + _rule[k].split(':')[1] + ';';
+							this._this._ruleSet[h]._rule[j].style.cssText = _newStr;
+							document.getElementById(this._parentContainerID).removeChild(document.getElementById(this._parentID));
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+styleSheetReader.prototype.checkValue = function() {
+	if (this.value != '') {
+		var prop = this._sibling.value.replace(/\s/g, '');
+		if (prop.indexOf('-') != -1) {var pos = prop.indexOf('-'); prop = prop.substring(0, pos) + prop.substring(pos + 1, pos + 2).toUpperCase() + prop.substring(pos + 2, prop.length);}
+		this.style.border = 'none';
+		if (this._this._ruleSet) {
+			for (var h=0; h<this._this._ruleSet.length; h++) {
+				if (this._this._ruleSet[h] == undefined) continue;
+				if (this._this._ruleSet[h]._href.indexOf(_domInspectorCSS) != -1) continue;
+				if (this._this._ruleSet[h]._rule) {
+					for (var i=0; i<this._this._ruleSet[h]._rule.length; i++) {
+						if (!this._this._ruleSet[h]._rule[i].selectorText) continue;
+						if (this._this._ruleSet[h]._rule[i].selectorText.toLowerCase() == 'unknown') continue;
+						var _selectorText = this._this._ruleSet[h]._rule[i].selectorText;
+						if (_selectorText == this._selectorText) eval('this._this._ruleSet[h]._rule[i].style.' + prop + ' = \'' + this.value + '\';');
+					}
+				}
+			}
+		}
+	}
+}
+
+styleSheetReader.prototype.selectRange = function (textbox, iStart, iLength) {
+    if (textbox.createTextRange) {
+        var oRange = textbox.createTextRange();
+        oRange.moveStart("character", iStart);
+        oRange.moveEnd("character", iLength - textbox.value.length);
+        oRange.select();
+    } else if (textbox.setSelectionRange) {
+        textbox.setSelectionRange(iStart, iLength);
+    }
+    textbox.focus();
+}
+
+styleSheetReader.prototype.typeAhead = function (textbox, sSuggestion) {
+    if (textbox.createTextRange || textbox.setSelectionRange) {
+        var iLen = textbox.value.length;
+        textbox.value = sSuggestion;
+        this.selectRange(textbox, iLen, sSuggestion.length);
+    }
+}
+
+styleSheetReader.prototype.changeRuleProperty = function(e) {
+	var KeyID = document.all?window.event.keyCode:e.keyCode;
+	var _aryProperties = this._this.propertiesAF;
+	
+	switch (KeyID) {
+		// backspace
+		case 8:
+			break;
+		// tab
+		case 9:
+			break;
+		// enter
+		case 13:
+			break;
+		// shift
+		case 16:
+			break;
+		// ctrl
+		case 17:
+			break;
+		// alt
+		case 18:
+			break;
+		// caps lock
+		case 20:
+			break;
+		// end
+		case 35:
+			break;
+		// home
+		case 36:
+			break;
+		// left arrow
+		case 37:
+			break;
+		// up arrow
+		case 38:
+			for (var i=0; i<_aryProperties.length; i++) {
+				if (this.value == _aryProperties[i]) {
+					if (i == 0) i = _aryProperties.length;
+					this.value = _aryProperties[i - 1];
+					break;
+				}
+			}
+			break;
+		// right arrow
+		case 39:
+			break;
+		// down arrow
+		case 40:
+			for (var i=0; i<_aryProperties.length; i++) {
+				if (this.value == _aryProperties[i]) {
+					if (i >= _aryProperties.length - 1) i = -1;
+					this.value = _aryProperties[i + 1];
+					break;
+				}
+			}
+			break;
+		default:
+			if (this.value.length > 0) {
+				for (var i=0; i<_aryProperties.length; i++) {
+					if (_aryProperties[i].substring(0, this.value.length).indexOf(this.value) != -1) {
+						this._this.typeAhead(this, _aryProperties[i]);
+						break;
+					}
+				}
+			}
+			break;
+	}
+	var _mPWidth = 6 * this.value.length;
+	this.style.width = _mPWidth + 'px';
+}
+
+styleSheetReader.prototype.isApplied = function(pCssText) {
+	var _styleToCheck = _valueToCheck = '';
+	_styleToCheck = pCssText.replace(/^\s+/g, '').replace(/\s+$/g, '').split(':')[0];
+	_valueToCheck = pCssText.replace(/^\s+/g, '').replace(/\s+$/g, '').split(':')[1];
+	if (document.all) {
+		if (_styleToCheck.indexOf('-') != -1) {
+			var pos = _styleToCheck.indexOf('-');
+			_styleToCheck = _styleToCheck.replace('-', '');
+			_styleToCheck = _styleToCheck.substring(0, pos).toLowerCase() + _styleToCheck.substring(pos, pos + 1).toUpperCase() + _styleToCheck.substring(pos + 1, _styleToCheck.length).toLowerCase();
+		}
+	}
+	if (_styleToCheck == 'padding' || _styleToCheck == 'margin') {
+		var _temp = _valueToCheck.split(' ');
+		var _tempC = '';
+		for (var i=0; i<4; i++) {
+			var _tempSstyleToCheck = '';
+			switch (i) {
+				case 0: {if (document.all) _tempSstyleToCheck = _styleToCheck + 'Top'; else _tempSstyleToCheck = _styleToCheck + '-top'; break;}
+				case 1: {if (document.all) _tempSstyleToCheck = _styleToCheck + 'Right'; else _tempSstyleToCheck = _styleToCheck + '-right'; break;}
+				case 2: {if (document.all) _tempSstyleToCheck = _styleToCheck + 'Bottom'; else _tempSstyleToCheck = _styleToCheck + '-bottom'; break;}
+				case 3: {if (document.all) _tempSstyleToCheck = _styleToCheck + 'Left'; else _tempSstyleToCheck = _styleToCheck + '-left'; break;}
+			}
+			if (document.all) {
+				if (this._elementToCheck.currentStyle) var _bStyle = ' '  + this._elementToCheck.currentStyle[_tempSstyleToCheck];
+				else if (window.getComputedStyle) var _bStyle = ' '  + document.defaultView.getComputedStyle(this._elementToCheck, null).getPropertyValue(_tempSstyleToCheck);
+			} else {
+				if (this._elementToCheck.currentStyle) var _bStyle = ' ' + this._elementToCheck.currentStyle[_tempSstyleToCheck];
+				else if (window.getComputedStyle) var _bStyle = ' ' + document.defaultView.getComputedStyle(this._elementToCheck, null).getPropertyValue(_tempSstyleToCheck);
+			}
+			_tempC += _bStyle + ' ';
+		}
+		if (_tempC.replace(/\s/g, '').indexOf(_valueToCheck.replace(/\s/g, '')) != -1) {return true;}
+		
+	}
+	if (_styleToCheck == 'background') {
+		var _temp = _valueToCheck.split(' ');
+		var _tempC = '';
+		for (var i=0; i<6; i++) {
+			var _tempSstyleToCheck = '';
+			switch (i) {
+				case 0: {if (document.all) _tempSstyleToCheck = _styleToCheck + 'Color'; else _tempSstyleToCheck = _styleToCheck + '-color'; break;}
+				case 1: {if (document.all) _tempSstyleToCheck = _styleToCheck + 'Image'; else _tempSstyleToCheck = _styleToCheck + '-image'; break;}
+				case 2: {if (document.all) _tempSstyleToCheck = _styleToCheck + 'Attachment'; else _tempSstyleToCheck = _styleToCheck + '-attachment'; break;}
+				case 3: {if (document.all) _tempSstyleToCheck = _styleToCheck + 'PositionX'; else _tempSstyleToCheck = _styleToCheck + '-position-x'; break;}
+				case 4: {if (document.all) _tempSstyleToCheck = _styleToCheck + 'PositionY'; else _tempSstyleToCheck = _styleToCheck + '-position-y'; break;}
+				case 5: {if (document.all) _tempSstyleToCheck = _styleToCheck + 'Repeat'; else _tempSstyleToCheck = _styleToCheck + '-repeat'; break;}
+			}
+			if (document.all) {
+				if (this._elementToCheck.currentStyle) var _bStyle = ' '  + this._elementToCheck.currentStyle[_tempSstyleToCheck];
+				else if (window.getComputedStyle) var _bStyle = ' '  + document.defaultView.getComputedStyle(this._elementToCheck, null).getPropertyValue(_tempSstyleToCheck);
+			} else {
+				if (this._elementToCheck.currentStyle) var _bStyle = ' ' + this._elementToCheck.currentStyle[_tempSstyleToCheck];
+				else if (window.getComputedStyle) var _bStyle = ' ' + document.defaultView.getComputedStyle(this._elementToCheck, null).getPropertyValue(_tempSstyleToCheck);
+			}
+			_tempC += _bStyle + ' ';
+		}
+		var _allBackgrounds = _valueToCheck.split(' ');
+		for (var i=1; i<_allBackgrounds.length; i++) {
+			if (_allBackgrounds[i].indexOf('url') != -1) {
+				var _theURL = _allBackgrounds[i].substring(4, _allBackgrounds[i].length - 1);
+				if (_tempC.indexOf(_theURL)) return true;
+			}
+		}
+		if (_tempC.replace(/\s/g, '').indexOf(_valueToCheck.replace(/\s/g, '')) != -1) {return true;}
+	}
+	if (document.all) {
+		if (this._elementToCheck.currentStyle) var _bStyle = ' '  + this._elementToCheck.currentStyle[_styleToCheck];
+		else if (window.getComputedStyle) var _bStyle = ' '  + document.defaultView.getComputedStyle(this._elementToCheck, null).getPropertyValue(_styleToCheck);
+	} else {
+		if (this._elementToCheck.currentStyle) var _bStyle = ' ' + this._elementToCheck.currentStyle[_styleToCheck];
+		else if (window.getComputedStyle) var _bStyle = ' ' + document.defaultView.getComputedStyle(this._elementToCheck, null).getPropertyValue(_styleToCheck);
+	}
+	if (_bStyle == _valueToCheck) return true;
+	else return false;
+}
+
+styleSheetReader.prototype.destroyHighlight = function() {
+	if (document.getElementById('highlightDiv')) {
+		var m = document.getElementById('highlightDiv');
+		var p = m.parentNode; p.removeChild(m);
+	}
+}
+
+styleSheetReader.prototype.highlightElement = function(pElement) {
+	var oDiv = document.body.appendChild(document.createElement('div'));
+	oDiv.id = 'highlightDiv';
+	oDiv.style.opacity = 50 / 100;
+	oDiv.style.filter = 'alpha(opacity=' + 50 + ')';
+	oDiv.style.zIndex = this.getHighestZIndex() - 1;
+	oDiv.style.width = pElement.offsetWidth + 'px';
+	oDiv.style.height = pElement.offsetHeight + 'px';
+	this.positionObjectToElement(pElement, oDiv, 0, 0);
+}
+
+styleSheetReader.prototype.findPos = function(pObject) {
+	var _currentLeft = _currentTop = 0;
+	if (pObject.offsetParent) {
+		_currentLeft = pObject.offsetLeft;
+		_currentTop = pObject.offsetTop;
+		while (pObject = pObject.offsetParent) {
+			_currentLeft += pObject.offsetLeft;
+			_currentTop += pObject.offsetTop;
+		}
+	}
+	return [_currentLeft, _currentTop];
+}
+
+styleSheetReader.prototype.positionObjectToElement = function(pObject, pThis, pOffsetX, pOffsetY) {
+	var _coordinates = this.findPos(pObject);
+	pThis.style.left = _coordinates[0] + pOffsetX + 'px';
+	pThis.style.top = _coordinates[1] + pOffsetY + 'px';
+}
+
+styleSheetReader.prototype.matchStyles = function(pElement) {
+	if (pElement == null || pElement == 'undefined') return;
+	this._outputWindow.switchOutput('editor');
+	this._outputWindow.clearOutputWindow();
+	dCounter = 0;
+	this._currentElement = pElement;
+	this._elementToCheck = pElement;
+	var _tempID = '';
+	if (pElement.id) {_tempID = '#' + pElement.id;}
+	for (var i=0; i<pElement.attributes.length; i++) if (pElement.attributes.item(i).nodeName == 'class') if (pElement.attributes.item(i).nodeValue != '') if (_tempID == '') _tempID = '.' + pElement.attributes.item(i).nodeValue;
+	this._outputWindow.changeTitle('<span class="stylesForSpan">Styles for: ' + pElement.nodeName + _tempID + '</span>');
+	var oSpan = document.createElement('span');
+	oSpan.className = 'retrievedStyleForPhrase';
+	oSpan.innerHTML = 'Retrieved Styles For: ';
+	this._outputWindow.appendMessage(oSpan);
+	var oA = document.createElement('a');
+	oA.className = 'retrievedStyleForPhrase';
+	oA.href = 'javascript: void(0);';
+	oA.pElement = pElement;
+	oA._this = this;
+	oA.onmouseover = function() {this._this.highlightElement(this.pElement);}
+	oA.onmouseout = function() {this._this.destroyHighlight();}
+	oA.innerHTML = this._currentElement.nodeName.toLowerCase() + _tempID;
+	this._outputWindow.appendMessage(oA);
+	this._outputWindow.appendMessage(document.createElement('br'));
+	while (this._currentElement) {
+		if (pElement.nodeType == 1) {
+			if (this._currentElement.nodeName == 'BODY') return;
+			if (this._currentElement != pElement) {
+				var _cID = false;
+				if (this._currentElement.id) {
+					var oIDClassSpan = document.createElement('span');
+					oIDClassSpan.className = 'oIDClassSpan';
+					oIDClassSpan.innerHTML = '#' + this._currentElement.id;
+					_cID = true;
+				}
+				for (var i=0; i<this._currentElement.attributes.length; i++) if (this._currentElement.attributes.item(i).nodeName == 'class') if (this._currentElement.attributes.item(i).nodeValue != '') if (!_cID) if (oIDClassSpan) oIDClassSpan.innerHTML = '.' + this._currentElement.attributes.item(i).nodeValue;
+				this._outputWindow.appendMessage(document.createElement('br'));
+				var oInheritedFromSpan = document.createElement('span');
+				oInheritedFromSpan.className = 'oInheritedFromSpan';
+				oInheritedFromSpan.innerHTML = 'Inherited from ';
+				var oInheritedFromA = oInheritedFromSpan.appendChild(document.createElement('a'));
+				oInheritedFromA.className = 'oInheritedFromA';
+				oInheritedFromA.href = 'javascript: void(0);';
+				oInheritedFromA._this = this;
+				oInheritedFromA._currentElement = this._currentElement;
+				oInheritedFromA.onclick = function() {this._this.destroyHighlight(); this._this.matchStyles(this._currentElement)}
+				oInheritedFromA.onmouseover = function() {this._this.highlightElement(this._currentElement);}
+				oInheritedFromA.onmouseout = function() {this._this.destroyHighlight();}
+				oInheritedFromA.innerHTML = this._currentElement.nodeName.toLowerCase();
+				if (_cID) oInheritedFromA.appendChild(oIDClassSpan);
+				this._outputWindow.appendMessage(oInheritedFromSpan);
+			}
+			this.getStyles(this._currentElement);
+		}
+		this._currentElement = this._currentElement.parentNode;
+	}
+}
+
+// OUTPUT WINDOW //
+function SSROutputWindow() {
+	var outputWindowMainContainer = document.body.appendChild(document.createElement("div"));
+	outputWindowMainContainer.id = "outputWindowContainer";
+	outputWindowMainContainer.style.display = "none";
+	this._outputWindow = outputWindowMainContainer;
+	
+	var outputWindowTitlebarContainer = outputWindowMainContainer.appendChild(document.createElement("div"));
+	outputWindowTitlebarContainer.id = "outputWindowTitlebarContainer";
+	outputWindowTitlebarContainer.onmousedown = SSROutputWindow.prototype.tdOnMouseDown;
+	this._outputWindowTitlebar = outputWindowTitlebarContainer;
+	outputWindowTitlebarContainer._outputWindow = this;
+	
+	var oDebuggerTitlebarTitleSpan = outputWindowTitlebarContainer.appendChild(document.createElement("span"));
+	oDebuggerTitlebarTitleSpan.id = "oDebuggerTitlebarTitleSpan";
+	oDebuggerTitlebarTitleSpan.innerHTML = "DoM Inspector v 1.1.2";
+	this.outputWindowTitle = oDebuggerTitlebarTitleSpan;
+	
+	var outputWindowMenuDiv = outputWindowMainContainer.appendChild(document.createElement("div"));
+	outputWindowMenuDiv.id = 'outputWindowMenuDiv';
+	this._outputWindowMenuDiv = outputWindowMenuDiv;
+
+	var btnShowEditor = outputWindowMenuDiv.appendChild(document.createElement("span"));
+	btnShowEditor.id = 'btnShowEditor';
+	btnShowEditor.className = 'btnShowEditorNormal';
+	btnShowEditor.innerHTML = 'show editor';
+	btnShowEditor._this = this;
+	btnShowEditor.onmouseover = function() {this.className = 'btnShowEditorHighlight';}
+	btnShowEditor.onmouseout = function() {this.className = 'btnShowEditorNormal';}
+	btnShowEditor.onclick = function() {this._this.switchOutput('editor');}
+	this._btnShowEditor = btnShowEditor;
+	
+	var btnShowStyleSheets = outputWindowMenuDiv.appendChild(document.createElement("span"));
+	btnShowStyleSheets.id = 'btnShowStyleSheets';
+	btnShowStyleSheets.className = 'btnShowStyleSheetsNormal'
+	btnShowStyleSheets.innerHTML = 'show style sheets';
+	btnShowStyleSheets._this = this;
+	btnShowStyleSheets.onmouseover = function() {this.className = 'btnShowStyleSheetsHighlight';}
+	btnShowStyleSheets.onmouseout = function() {this.className = 'btnShowStyleSheetsNormal';}
+	btnShowStyleSheets.onclick = function() {_mStyleReader.showCssFiles(); this._this.switchOutput('ssoutput');}
+	this._btnShowStyleSheets = btnShowStyleSheets;
+	
+	var outputWindowEditorContainer = outputWindowMainContainer.appendChild(document.createElement("div"));
+	outputWindowEditorContainer.id = "outputWindowEditorContainer";
+	outputWindowEditorContainer.style.display = 'block';
+	outputWindowEditorContainer.onscroll = function() {_scrollTop = this.scrollTop;}
+	this._outputWindowEditor = outputWindowEditorContainer;
+
+	var outputWindowSSOutputContainer = outputWindowMainContainer.appendChild(document.createElement("div"));
+	outputWindowSSOutputContainer.id = "outputWindowSSOutputContainer";
+	outputWindowSSOutputContainer.style.display = 'none';
+	outputWindowSSOutputContainer.onscroll = function() {_scrollTop = this.scrollTop;}
+	this._outputWindowSSOutput = outputWindowSSOutputContainer;
+}
+
+SSROutputWindow.prototype.changeTitle = function(pPhrase) {this.outputWindowTitle.innerHTML = 'DoM Inspector v 1.0 - ' + pPhrase;}
+SSROutputWindow.prototype.writeToDebugWindow = function(pString) {
+	this._outputWindowEditor.innerHTML += pString + "<br />";
+	this._outputWindowEditor.scrollTop = this._outputWindowEditor.scrollHeight;
+}
+SSROutputWindow.prototype.appendMessage = function(pContainer) {
+	if (!pContainer) return;
+	this._outputWindowEditor.appendChild(pContainer);
+}
+SSROutputWindow.prototype.ssOutputAppendMessage = function(pContainer) {if (!pContainer) return; this._outputWindowSSOutput.appendChild(pContainer);}
+SSROutputWindow.prototype.clearOutputWindow = function() {this._outputWindowEditor.innerHTML = '';}
+SSROutputWindow.prototype.clearSSOutputWindow = function() {this._outputWindowSSOutput.innerHTML = '';}
+SSROutputWindow.prototype.showDebugWindow = function() {
+	//this.centerOutput(this._outputWindow);
+	this.positionOutput(this._outputWindow);
+	this._outputWindow.style.display = "block";
+};
+SSROutputWindow.prototype.positionOutput = function(obj) {
+	var vw, vh;
+	if (typeof window.innerWidth != 'undefined') {
+		vw = window.innerWidth;
+		vh = window.innerHeight;
+	} else if (typeof document.documentElement != 'undefined' && typeof document.documentElement.clientWidth != 'undefined' && document.documentElement.clientWidth != 0) {
+		vw = document.documentElement.clientWidth;
+		vh = document.documentElement.clientHeight;
+	} else {
+		vw = document.getElementsByTagName('body')[0].clientWidth;
+		vh = document.getElementsByTagName('body')[0].clientHeight;
+	}
+	obj.style.top = (vh - 187) + 'px';
+};
+
+SSROutputWindow.prototype.switchOutput = function(pWhich) {
+	this._outputWindowEditor.style.display = 'none';
+	this._outputWindowSSOutput.style.display = 'none';
+	switch (pWhich) {
+		case 'editor': {this._outputWindowEditor.style.display = 'block'; break;}
+		case 'ssoutput': {this._outputWindowSSOutput.style.display = 'block'; break;}
+	}
+};
+
+SSROutputWindow.prototype.tdOnMouseDown = function() {
+	this._outputWindow.onMouseDown();
+};
+
+SSROutputWindow.prototype.onMouseDown = function() {this.bDown = true; document.body._outputWindow = this; this.saveMouseMove = document.body.onmousemove; this.saveMouseUp = document.body.onmouseup; document.body.onmousemove = SSROutputWindow.prototype.bodyOnMouseMove; document.body.onmouseup = SSROutputWindow.prototype.bodyOnMouseUp;}
+SSROutputWindow.prototype.bodyOnMouseMove = function(evt) {var e = window.event ? window.event : evt; this._outputWindow.onMouseMove(e);}
+SSROutputWindow.prototype.onMouseMove = function(evt) {if ((document.all) && !(evt.button & 1)) {this.onMouseUp(); return;} if (this.bDown) {this.dx = parseInt(this._outputWindow.style.left, 10) - evt.clientX; this.dy = parseInt(this._outputWindow.style.top, 10) - evt.clientY; this.bDown = false;} else {this._outputWindow.style.left = Math.max((this.dx + evt.clientX),0) + "px"; this._outputWindow.style.top = Math.max((this.dy + evt.clientY),0) + "px";}}
+SSROutputWindow.prototype.bodyOnMouseUp = function() {this._outputWindow.onMouseUp();}
+SSROutputWindow.prototype.onMouseUp = function() {document.body.onmouseup = this.saveMouseUp; document.body.onmousemove = this.saveMouseMove; document.body._outputWindow = null;}
+SSROutputWindow.prototype.centerOutput = function(element) {
+    var my_width  = 0;
+    var my_height = 0;
+    if (typeof(window.innerWidth) == "number") {
+        my_width = window.innerWidth;
+        my_height = window.innerHeight;
+    } else if (document.documentElement && (document.documentElement.clientWidth || document.documentElement.clientHeight)) {
+        my_width = document.documentElement.clientWidth;
+        my_height = document.documentElement.clientHeight;
+    } else if (document.body && (document.body.clientWidth || document.body.clientHeight)) {
+        my_width = document.body.clientWidth;
+        my_height = document.body.clientHeight;
+    }
+    element.style.position = "absolute";
+    element.style.zIndex = 100000;
+    var scrollY = 0;
+    if (document.documentElement && document.documentElement.scrollTop) {
+        scrollY = document.documentElement.scrollTop;
+    } else if (document.body && document.body.scrollTop) {
+        scrollY = document.body.scrollTop;
+    } else if (window.pageYOffset) {
+        scrollY = window.pageYOffset;
+    } else if (window.scrollY) {
+        scrollY = window.scrollY;
+    }
+    var setX = (my_width - element.offsetWidth) / 2;
+    var setY = (my_height - element.offsetHeight) / 2 + scrollY;
+    setX = (setX < 0) ? 0 : setX;
+    setY = (setY < 0) ? 0 : setY;
+    element.style.left = (setX - 200) + "px";
+    element.style.top = (setY - 100) + "px";
+}
+
+var _cssLink = document.body.appendChild(document.createElement("link"));
+_cssLink.id = "cssReaderCss";
+_cssLink.rel = "stylesheet";
+//_cssLink.href = "http://10.69.17.13/CDEObjects/CSS%20Reader/" + _domInspectorCSS;
+_cssLink.href = _domInspectorCSS;
+//_cssLink.href = "http://192.168.1.7/CDEObjects/CSS%20Reader/" + _domInspectorCSS;
+_cssLink.type = "text/css";
+
+// loop through the dom and try to disable all href values
+// as well as onclick & onmousedown events before starting the app
+var _allDOMElements = document.body.getElementsByTagName('*');
+for (var i=0; i<_allDOMElements.length; i++) {
+	if (_allDOMElements[i].nodeType == 1) {
+		if (_allDOMElements[i].nodeName == 'A') _allDOMElements[i].href = 'javascript: void(0);';
+		_allDOMElements[i].onclick = null;
+		_allDOMElements[i].onmousedown = null;
+	}
+}
+
+var _mStyleReader = new styleSheetReader();
+
+</script>
