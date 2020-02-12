@@ -5,19 +5,24 @@ console.log('domain2');
 var jsFBDomain = 'http://localhost:8081/';
 console.log(jsFBDomain + 'js_firebug.css');
 //var jsFBDomain = 'http://common.scrippsnetworks.com/common/js/jsfirebug/';
+
 /*
 	we load up a blank popup window so everything
 	in this application is created via javascript
 	Even though the window is blank, it still seems
 	to have html, body and probably a head tag.
 */
+
 /* create and load the css for this app old school */
 var jsfb_css = document.createElement('link');
+
 jsfb_css.rel = 'stylesheet';
 jsfb_css.type = 'text/css';
 jsfb_css.href = jsFBDomain + 'js_firebug.css';
+
 /* I wanna use jQuery!! */
 var jquery_inc = document.createElement('script');
+
 jquery_inc.type = 'text/javascript';
 jquery_inc.id = 'jsFirebugScript';
 jquery_inc.src = jsFBDomain + 'jquery.js';
@@ -26,13 +31,12 @@ document.getElementsByTagName('head')[0].appendChild(jsfb_css);
 document.getElementsByTagName('head')[0].appendChild(jquery_inc);
 /* onload for jQuery = jquery_ready(); */
 jquery_inc.onload = jquery_ready;
-jquery_inc.onreadystatechange = function() {
-	console.log('here');
-	if ( jquery_inc.readyState == 'loaded' || jquery_inc.readyState == 'complete' )
-		jquery_ready();
+jquery_inc.onreadystatechange = function () {
+  if ( jquery_inc.readyState == 'loaded' || jquery_inc.readyState == 'complete' )
+    jquery_ready();
 };
 /* this function should only fire after jQuery has been loaded */
-function jquery_ready() {
+function jquery_ready () {
 	/*
 		jQuery plugin: json2HTML( obj )
 		this method I created to try and
@@ -59,10 +63,10 @@ function jquery_ready() {
 					];
 					$(document).json2HTML(html);
 	*/
-	$.fn.json2HTML = function( obj ) {
+	$.fn.json2HTML = function ( obj ) {
 		var defaults = {};
 		var options = $.extend(defaults, options);
-		return this.each(function(i) {
+		return this.each(function (i) {
 			var previousElement = this;
 			function json2HTML( obj ) {
 				for ( var i=0; i<obj.length; i++ ) {
@@ -126,9 +130,9 @@ function jquery_ready() {
 		});
 	};
 	/* right click context menu */
-	$.fn.showMenu = function(options) {
+	$.fn.showMenu = function (options) {
 		var opts = $.extend({}, $.fn.showMenu.defaults, options);
-		$(this).bind('contextmenu', function(e){
+		$(this).bind('contextmenu', function (e){
 			$(opts.query).get(0).obj = this;
 			$(opts.query)
 				.css({
@@ -147,13 +151,13 @@ function jquery_ready() {
 		opacity: 1.0
 	};
 	/* clipboard copy */
-	$.copy = function(data) { return $.fn.copy.call({}, data); };
-	$.fn.copy = function(delimiter) {
+	$.copy = function (data) { return $.fn.copy.call({}, data); };
+	$.fn.copy = function (delimiter) {
 		// Get Previous Object List
 		var self = this,
 		// Capture or Create Div for SWF Object
-		flashcopier = (function(fid) {
-			return document.getElementById(fid) || (function() {
+		flashcopier = (function (fid) {
+			return document.getElementById(fid) || (function () {
 				var divnode    = document.createElement('div');
 					divnode.id = fid;
 				document.body.appendChild(divnode);
@@ -161,7 +165,7 @@ function jquery_ready() {
 			})();
 		})('_flash_copier'),
 		// Capture our jQuery Selected Data and Scrub
-		data = $.map(self, function(bit) {
+		data = $.map(self, function (bit) {
 			return typeof bit === 'object' ? bit.value || bit.innerHTML.replace(/<.+>/g, '') : '';
 		}).join( delimiter || '' ).replace(/^\s+|\s+$/g, '') || delimiter,
 		// Define SWF Object with our Captured Data
@@ -171,7 +175,7 @@ function jquery_ready() {
 		// Return Previous Object List
 		return self;
 	};
-	$.jsFirebug = function() {
+	$.jsFirebug = function () {
 		this.init();
 		//this.getCSS(true);
 		this.jsfbWindow.json2HTML('CSS', [ { nodeName: 'a', attr: { href: 'javascript:$.jsFirebug.getCSS(true);' }, html: 'Enable CSS' } ]);
@@ -189,7 +193,7 @@ function jquery_ready() {
 	};
 	$.extend(jQuery.jsFirebug, {
 		prototype: {
-			init: function() {
+			init: function () {
 				/* create an array for font families */
 				this.fontFamilies = [
 					'Arial, Helvetica, sans-serif',
@@ -296,7 +300,7 @@ function jquery_ready() {
 					we'll set onclick and onmousedown to null for all elements
 					as well as all anchors href to "javascript: void(0);"
 				*/
-				$.each($('*', opener.document), function() {
+				$.each($('*', opener.document), function () {
 					if ( this.nodeName.toLowerCase() == 'a' )
 						$(this).attr('href', 'javascript: void(0);');
 					/* here we could store the original onclick and onmousedown events somewhere */
@@ -306,7 +310,7 @@ function jquery_ready() {
 				if ( opener.document.all ) {
 					
 				} else {
-					$.each($('embed', opener.document), function() {
+					$.each($('embed', opener.document), function () {
 						if ( $(this).attr('src') ) {
 							var src = $(this).attr('src'), w = h = '';
 							if ( $(this).attr('width') )
@@ -323,12 +327,12 @@ function jquery_ready() {
 						}
 					});
 				}
-				$(opener.document.body).mousedown(function( event ) {
+				$(opener.document.body).mousedown(function ( event ) {
 					self.inspectElement(event);
 				});
 				$.data(document.body, 'jsFirebug', this);
 			},
-			stopSWF: function( obj, w, h ) {
+			stopSWF: function ( obj, w, h ) {
 				$('object, script, embed', opener.document).css({
 					width: w + 'px',
 					height: h + 'px',
@@ -363,10 +367,10 @@ function jquery_ready() {
 //					obj = obj.parentNode;
 //				}
 			},
-			isArray: function(obj) {
+			isArray: function (obj) {
 				return obj && !(obj.propertyIsEnumerable('length')) && typeof obj === 'object' && typeof obj.length === 'number';
 			},
-			loadPlugins: function() {
+			loadPlugins: function () {
 				var all = document.getElementsByTagName('script');
 				for ( var i=0; i<all.length; i++ ) {
 					var str = 'jsfirebug_window.js?plugins=';
@@ -396,7 +400,7 @@ function jquery_ready() {
 					} catch(e) {}
 				}
 			},
-			getURLParam: function( param ) {
+			getURLParam: function ( param ) {
 				var q = opener.document.location.search || opener.document.location.hash;
 				if ( param == null ) { return q; }
 				if ( q ) {
@@ -407,12 +411,12 @@ function jquery_ready() {
 				}
 				return '';
 			},
-			appendToOpener: function( obj ) {
+			appendToOpener: function ( obj ) {
 				this.parentGeneratedItems.push(obj);
 				$(opener.document.body).append(obj);
 			},
 			/* method: inspectElement( event ) */
-			inspectElement: function( event ) {
+			inspectElement: function ( event ) {
 				if ( event == null )
 					event = window.event;
 				var target = event.target != null ? event.target : event.srcElement;
@@ -430,7 +434,7 @@ function jquery_ready() {
 				}
 			},
 			/* method: findStyles( obj ) */
-			findStyles: function( obj ) {
+			findStyles: function ( obj ) {
 				var jsFirebug = this;
 				if ( obj == null || obj == 'undefined' )
 					return;
@@ -452,12 +456,12 @@ function jquery_ready() {
 					nodeName: 'a',
 					addClass: 'retrievedStyleForPhrase',
 					extend: [ {obj: obj, jsFirebug: jsFirebug } ],
-					mouseover: function() {
+					mouseover: function () {
 						var jsFirebug = $.data(this, 'jsFirebug');
 						var obj = $.data(this, 'obj');
 						jsFirebug.highlight('add', obj);
 					},
-					mouseout: function() {
+					mouseout: function () {
 						var jsFirebug = $.data(this, 'jsFirebug');
 						jsFirebug.highlight('remove');
 					},
@@ -493,14 +497,14 @@ function jquery_ready() {
 									nodeName: 'a',
 									extend: [ {currentObj: this.currentObj, jsFirebug: jsFirebug}],
 									href: 'javascript: void(0);',
-									click: function() {
+									click: function () {
 										$.data(this, 'jsFirebug').highlight('remove');
 										$.data(this, 'jsFirebug').findStyles($.data(this, 'currentObj'))
 									},
-									mouseover: function() {
+									mouseover: function () {
 										$.data(this, 'jsFirebug').highlight('add', $.data(this, 'currentObj'));
 									},
-									mouseout: function() {
+									mouseout: function () {
 										$.data(this, 'jsFirebug').highlight('remove');
 									},
 									html: this.currentObj.nodeName.toLowerCase(),
@@ -514,7 +518,7 @@ function jquery_ready() {
 				}
 			},
 			/* method: getStyles( obj ) */
-			getStyles: function( obj ) {
+			getStyles: function ( obj ) {
 				var mStyles = [];
 				if ( this.ruleSet ) {
 					for ( var h=0; h<this.ruleSet.length; h++ ) {
@@ -669,7 +673,7 @@ function jquery_ready() {
 				return mStyles;
 			},
 			/* method: getHTML() */
-			getHTML: function() {
+			getHTML: function () {
 				this.jsfbWindow.clear('HTML');
 				var wrap = document.createElement('div');
 				$(wrap)
@@ -680,7 +684,7 @@ function jquery_ready() {
 				this.jsfbWindow.append('HTML', '<div><span class="htmlTag">&lt;/body&gt;</span></div>');
 			},
 			/* method: loopDOM( obj, container ) */
-			loopDOM: function( obj, container ) {
+			loopDOM: function ( obj, container ) {
 				//this.prevParent = container;
 				var k = 0;
 				var jsFirebug = this;
@@ -743,13 +747,13 @@ function jquery_ready() {
 								$(htmlLine)
 									.addClass('htmlLine')
 									.html(startHTML + '<br />')
-									.mouseover(function() {
+									.mouseover(function () {
 										jsFirebug.highlight('add', this.obj);
 									})
-									.mouseout(function() {
+									.mouseout(function () {
 										jsFirebug.highlight('remove');
 									})
-									.click(function() {
+									.click(function () {
 										jsFirebug.findStyles(this.obj);
 									})
 									.showMenu({ query	: '#htmlContext' });
@@ -766,7 +770,7 @@ function jquery_ready() {
 											.css('padding-left', '7px')
 											.addClass('expandSign')
 											.html('-')
-											.click(function() {
+											.click(function () {
 												for ( var i=0; i<this.parentNode.childNodes.length; i++ ) {
 													if ( this.parentNode.childNodes[i].nodeType == 1 ) {
 														if ( this.parentNode.childNodes[i].tagName.toLowerCase() == 'div' ) {
@@ -795,13 +799,13 @@ function jquery_ready() {
 				}
 			},
 			/* method showCCKey() */
-			showCCKey: function( method ) {
+			showCCKey: function ( method ) {
 				var wrap = document.createElement('div');
 				$(wrap).attr('id', 'ccKeyWrap');
 					var btnClose = document.createElement('div');
 					$(btnClose)
 						.addClass('btnClose')
-						.click(function() {
+						.click(function () {
 							$(this.parentNode).remove();
 						})
 						.html('close');
@@ -815,7 +819,7 @@ function jquery_ready() {
 								li.name = name;
 								$(li)
 									.css('background', this.aryColorCodes[name])
-									.mouseover(function() {
+									.mouseover(function () {
 										switch ( method ) {
 											case 'nodeName': {
 												this.jsFirebug.highlightMultiple('set', this.name);
@@ -824,7 +828,7 @@ function jquery_ready() {
 											case 'display': {
 												var objs = [];
 												var name = this.name;
-												$.each($('*', opener.document), function() {
+												$.each($('*', opener.document), function () {
 													if ( this.nodeType == 1 ) {
 														if ( this.tagName.toLowerCase() != 'script' &&
 															this.tagName.toLowerCase() != 'link' &&
@@ -840,7 +844,7 @@ function jquery_ready() {
 											case 'className': {
 												var objs = [];
 												var name = this.name;
-												$.each($('*', opener.document), function() {
+												$.each($('*', opener.document), function () {
 													if ( this.nodeType == 1 ) {
 														if ( this.tagName.toLowerCase() != 'script' &&
 															this.tagName.toLowerCase() != 'link' &&
@@ -855,7 +859,7 @@ function jquery_ready() {
 											}
 										}
 									})
-									.mouseout(function() {
+									.mouseout(function () {
 										switch ( method ) {
 											case 'nodeName': {
 												this.jsFirebug.highlightMultiple('undo', this.name);
@@ -864,7 +868,7 @@ function jquery_ready() {
 											case 'display': {
 												var objs = [];
 												var name = this.name;
-												$.each($('*', opener.document), function() {
+												$.each($('*', opener.document), function () {
 													if ( this.nodeType == 1 ) {
 														if ( this.tagName.toLowerCase() != 'script' &&
 															this.tagName.toLowerCase() != 'link' &&
@@ -880,7 +884,7 @@ function jquery_ready() {
 											case 'className': {
 												var objs = [];
 												var name = this.name;
-												$.each($('*', opener.document), function() {
+												$.each($('*', opener.document), function () {
 													if ( this.nodeType == 1 ) {
 														if ( this.tagName.toLowerCase() != 'script' &&
 															this.tagName.toLowerCase() != 'link' &&
@@ -902,14 +906,14 @@ function jquery_ready() {
 				this.jsfbWindow.append('Visual', wrap);
 			},
 			/* method filterTags( array ) - returns true or false */
-			filterTags: function( str, array ) {
+			filterTags: function ( str, array ) {
 				for ( var i=0; i<array.length; i++ )
 					if ( array[i] == str )
 						return true;
 				return false;
 			},
 			/* method: getVisual( method ) */
-			getVisual: function( method ) {
+			getVisual: function ( method ) {
 				/*
 					loop through opener dom and color code by nodeName.
 					What we're going to do is create color coded rectangles
@@ -943,13 +947,13 @@ function jquery_ready() {
 								border		: '1px solid #000',
 								cursor		: 'pointer'
 							})
-							.mouseover(function() {
+							.mouseover(function () {
 								jsFirebug.highlight('add', this.obj);
 							})
-							.mouseout(function() {
+							.mouseout(function () {
 								jsFirebug.highlight('remove');
 							})
-							.click(function() {
+							.click(function () {
 								jsFirebug.findStyles(this.obj);
 							})
 							.showMenu({ query	: '#ccContext' });
@@ -957,7 +961,7 @@ function jquery_ready() {
 					}
 				}
 			},
-			setNodeNameColor: function( name ) {
+			setNodeNameColor: function ( name ) {
 				for ( n in this.aryColorCodes ) {
 					if ( name == n ) {
 						return this.aryColorCodes[n];
@@ -967,7 +971,7 @@ function jquery_ready() {
 				this.aryColorCodes[name] = hex;
 				return hex;
 			},
-			randomHex: function() {
+			randomHex: function () {
 				var colors = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
 				var digit = [];
 				var color = '';
@@ -984,20 +988,20 @@ function jquery_ready() {
 				return '#' + ary[0] + ary[1] + ary[2];
 								
 			},
-			swapper: function( a, L, e ) {
+			swapper: function ( a, L, e ) {
 				var r = Math.floor(Math.random()*L);                               
 				var x = a[e];                                                       
 				a[e] = a[r];                                                       
 				a[r] = x;
 				return a;
 			},
-			randArray: function( ary ) {
+			randArray: function ( ary ) {
 				var i = L = ary.length;                                               
 				while ( i-- )
 					return this.swapper(ary, L, i); 
 			},
 			/* method: getScript() */
-			getScript: function() {
+			getScript: function () {
 				this.jsfbWindow.clear('Script');
 				var all = $('*', opener.document);
 				var str = '';
@@ -1010,7 +1014,7 @@ function jquery_ready() {
 									if ( $(all[i]).attr('src') ) {
 										try {
 											var self = this, a = all[i];
-											$.get($(all[i]).attr('src'), function(data) {
+											$.get($(all[i]).attr('src'), function (data) {
 												self.jsfbWindow.json2HTML('Script', [ { nodeName: 'h2', html: $(a).attr('src') } ]);
 												self.jsfbWindow.json2HTML('Script', [ { nodeName: 'span', html: '<pre>' + data + '</pre>' } ]);
 											});
@@ -1028,7 +1032,7 @@ function jquery_ready() {
 				}
 			},
 			/* method: getInfo() */
-			getInfo: function() {
+			getInfo: function () {
 				var markup = $('html', opener.document).html();
 				var bodymarkup = $('body', opener.document).html();
 				var nContent = bodymarkup.replace(/<(.|\n)+?>/g, '');
@@ -1100,39 +1104,39 @@ function jquery_ready() {
 				$('#infoWrap').json2HTML( [{ nodeName: 'h2', html: 'Dead Images' }] );
 
 				this.jsfbWindow.json2HTML('Info', [{ nodeName: 'div', id: 'tmpImgWrap' }] );
-				$.each($('img', opener.document), function(i) {
+				$.each($('img', opener.document), function (i) {
 					$('#tmpImgWrap').json2HTML( [{
 						nodeName: 'img',
 						attr: { src: this.src },
-						error: function() {
+						error: function () {
 							$('#infoWrap').json2HTML( [{ nodeName: 'p', html: $(this).attr('src') }] );
 						},
-						load: function() {
+						load: function () {
 							$(this).remove();
 						}
 					}] );
 				});
 				
 				$('#infoWrap').json2HTML( [{ nodeName: 'h2', html: 'Possible Local Images' }] );
-				$.each($('img', opener.document), function(i) {
+				$.each($('img', opener.document), function (i) {
 					if ( $(this).attr('src').indexOf('http://') == -1 ) {
 						$('#infoWrap').json2HTML( [{ nodeName: 'p', html: $(this).attr('src') }] );
 					}
 				});
 				$('#infoWrap').json2HTML( [{ nodeName: 'h2', html: 'Relative Anchors' }] );
-				$.each($('a', opener.document), function(i) {
+				$.each($('a', opener.document), function (i) {
 					if ( $(this).attr('href').indexOf('http://') == -1 ) {
 						$('#infoWrap').json2HTML( [{ nodeName: 'p', html: $(this).html() + ' | <span class="relative_anchors">' + $(this).attr('href') + '</span>' }] );
 					}
 				});
 				$('#infoWrap').json2HTML( [{ nodeName: 'h2', html: 'IDs' }] );
-				$.each($('*', opener.document), function(i) {
+				$.each($('*', opener.document), function (i) {
 					if ( $(this).attr('id') ) {
 						$('#infoWrap').json2HTML( [{ nodeName: 'p', html: '<span class="id_name">#' + $(this).attr('id') + '</span> | <span class="id_nodeName">' + $(this).get(0).nodeName.toUpperCase() + '</span>' }] );
 					}
 				});
 				$('#infoWrap').json2HTML( [{ nodeName: 'h2', html: 'Classes' }] );
-				$.each($('*', opener.document), function(i) {
+				$.each($('*', opener.document), function (i) {
 					if ( $(this).attr('class') ) {
 						$('#infoWrap').json2HTML( [{ nodeName: 'p', html: '<span class="class_name">#' + $(this).attr('class') + '</span> | <span class="class_nodeName">' + $(this).get(0).nodeName.toUpperCase() + '</span>' }] );
 					}
@@ -1140,7 +1144,7 @@ function jquery_ready() {
 				$('#infoWrap').json2HTML( [{ nodeName: 'br' }] );
 				$('#infoWrap').json2HTML( [{ nodeName: 'br' }] );
 			},
-			renderElementUsage: function() {
+			renderElementUsage: function () {
 				/* first find and push all the different tagNames into an array */
 				var aryTagNames = ['html'];
 				var all = $('*', opener.document);
@@ -1166,7 +1170,7 @@ function jquery_ready() {
 				return mHTML;
 			},
 			/* method: renderTimeTable( timesArray ) */
-			renderTimeTable: function( timesArray ) {
+			renderTimeTable: function ( timesArray ) {
 				var mHTML = '<table id="dlTimes" width="400" cellspacing="0"><tr class="headerRow"><td>bps</td><td>0%</td><td>15%</td><td>20%</td><td>25%</td></tr>';
 				for ( i=0; i<this.bps.length; i++ ) {
 					trClass = i % 2 ? 'on' : 'off';
@@ -1180,7 +1184,7 @@ function jquery_ready() {
 				return mHTML;
 			},
 			/* method: calcTimes( byteSize) */
-			calcTimes: function( byteSize ) {
+			calcTimes: function ( byteSize ) {
 				times = new Array();
 				for ( i=0; i<this.bps.length; i++ ) {
 					times[i] = new Array();
@@ -1190,7 +1194,7 @@ function jquery_ready() {
 				return times;
 			},
 			/* method: countTitleAndAlt() */
-			countTitleAndAlt: function() {
+			countTitleAndAlt: function () {
 				altByteSize = 0;
 				allObj = $('*');
 				for ( i=0; i<allObj.length; i++ ) {
@@ -1204,7 +1208,7 @@ function jquery_ready() {
 				return altByteSize;
 			},
 			/* method: formatTime( time ) */
-			formatTime: function( time ) {
+			formatTime: function ( time ) {
 				if ( time <= 59 ) {
 					if ( time < 10 )
 						return '00:0' + time;
@@ -1229,7 +1233,7 @@ function jquery_ready() {
 					return str;
 				}
 			},
-			cssRGB2Hex: function( str ) {
+			cssRGB2Hex: function ( str ) {
 				if ( str.indexOf('rgb(') != -1 ) {
 					str = str.replace('rgb(', '').replace(')', '');
 					var tmp = str.split(',');
@@ -1247,7 +1251,7 @@ function jquery_ready() {
 				return str;
 			},
 			/* method: getCSS() */
-			getCSS: function( compressed ) {
+			getCSS: function ( compressed ) {
 				var str = '';
 				this.jsfbWindow.clear('CSS');
 				for ( var i=0; i<this.ruleSet.length; i++ ) {
@@ -1304,7 +1308,7 @@ function jquery_ready() {
 				this.jsfbWindow.json2HTML('CSS', [ { nodeName: 'div', id: 'ssOutputWrap', html: str } ]);
 			},
 			/* method: createRule( selectorText, cssText, url ) */
-			createRule: function( selectorText, cssText, url ) {
+			createRule: function ( selectorText, cssText, url ) {
 				var allCssText = cssText.replace(/^\s+/g, '').replace(/\s+$/g, '').split(';');
 				var cssRuleWrap = document.createElement('div');
 				$(cssRuleWrap)
@@ -1373,7 +1377,7 @@ function jquery_ready() {
 				this.jsfbWindow.append('Style', cssRuleWrapEnd);
 			},
 			/* method: isApplied( cssText) */
-			isApplied: function( cssText ) {
+			isApplied: function ( cssText ) {
 				var styleToCheck = valueToCheck = '';
 				styleToCheck = cssText.replace(/^\s+/g, '').replace(/\s+$/g, '').split(':')[0];
 				valueToCheck = cssText.replace(/^\s+/g, '').replace(/\s+$/g, '').split(':')[1];
@@ -1473,7 +1477,7 @@ function jquery_ready() {
 						<input type="text" class="oValue" value="" />
 					</span>
 			*/			
-			createPropertyValueSet: function( jsFWHtmlWrap, obj, isNew, propW, propVal, propOldVal, valW, valVal, strike, propToChange, image, objToCheck ) {
+			createPropertyValueSet: function ( jsFWHtmlWrap, obj, isNew, propW, propVal, propOldVal, valW, valVal, strike, propToChange, image, objToCheck ) {
 				var jsFirebug = this;
 				/* create an ID */
 				var mID = 'rule' + this.newPropInc;
@@ -1493,12 +1497,12 @@ function jquery_ready() {
 					$(disable)
 						.attr('id', 'disableRule' + this.newPropInc)
 						.addClass('disabled')
-						.mouseover(function( event ) {
+						.mouseover(function ( event ) {
 							jsFirebug.disable(event, this);
 						})
-						.mouseout(function( event ) {
+						.mouseout(function ( event ) {
 							jsFirebug.disable(event, this);
-						}).click(function( event ) {
+						}).click(function ( event ) {
 							jsFirebug.disable(event, this);
 						});
 					$(span).append(disable);
@@ -1524,9 +1528,9 @@ function jquery_ready() {
 						$(txtProp).attr('value', '');
 					$(txtProp)
 						.css('text-decoration', strike)
-						.focus(function() { $(this).css('border', '1px solid #000'); })
-						.blur(function() { jsFirebug.checkProperty(this); })
-						.keyup(function(event) { jsFirebug.changeRuleProp(this, event); });
+						.focus(function () { $(this).css('border', '1px solid #000'); })
+						.blur(function () { jsFirebug.checkProperty(this); })
+						.keyup(function (event) { jsFirebug.changeRuleProp(this, event); });
 					if ( propOldVal != '' )
 						txtProp._oldValue = propOldVal.replace(/^\s+/g, '');
 					else
@@ -1564,14 +1568,14 @@ function jquery_ready() {
 						txtVal.previewObj = 'image';
 					$(txtVal)
 						.css('cursor', 'pointer')
-						.mouseover(function( event ) { jsFirebug.previewPopup(this, 'create', event); })
-						.mouseout(function( event ) { jsFirebug.previewPopup(this, 'remove', event); })
-						.focus(function() { $(this).css('border', '1px solid #000'); })
-						.blur(function() {
+						.mouseover(function ( event ) { jsFirebug.previewPopup(this, 'create', event); })
+						.mouseout(function ( event ) { jsFirebug.previewPopup(this, 'remove', event); })
+						.focus(function () { $(this).css('border', '1px solid #000'); })
+						.blur(function () {
 							jsFirebug.checkValue(this);
 							jsFirebug.changeProperty(this);
 						})
-						.keyup(function( event ) { jsFirebug.checkKeys(this, event); });
+						.keyup(function ( event ) { jsFirebug.checkKeys(this, event); });
 					if (propToChange != '')
 						txtVal._propertyToChange = propToChange;
 					else
@@ -1588,7 +1592,7 @@ function jquery_ready() {
 				this.newPropInc++;
 			},
 			/* method: checkKeys( obj, e ) */
-			checkKeys: function( obj, e ) {
+			checkKeys: function ( obj, e ) {
 				var keyID = document.all ? window.event.keyCode : e.keyCode;
 				var prop = obj.sibling.value.replace(/\s/g, '');
 				if ( prop.indexOf('-') != -1 ) {
@@ -1680,7 +1684,7 @@ function jquery_ready() {
 				}
 				$(obj).css('width', 8 *  obj.value.length + 'px');
 			},
-			changeProperty: function( obj ) {
+			changeProperty: function ( obj ) {
 				if ( obj.currentObj ) {
 					if ( obj.value != '' && obj.sibling.value != '' ) {
 						var prop = obj.sibling.value.replace(/\s/g, '');
@@ -1710,7 +1714,7 @@ function jquery_ready() {
 				}
 			},
 			/* method: checkProperty( obj ) */
-			checkProperty: function( obj ) {
+			checkProperty: function ( obj ) {
 				obj.style.border = 'none';
 				if ( obj.value == '' ) {
 					$('#' + obj.parentID).remove();
@@ -1752,7 +1756,7 @@ function jquery_ready() {
 					If there's a mtch, it modifies that rule set, otherwise
 					it creates a new ruleset.
 			*/
-			checkValue: function( obj ) {
+			checkValue: function ( obj ) {
 				if ( obj.value != '' ) {
 					var prop = obj.sibling.value.replace(/\s/g, '');
 					if ( prop.indexOf('-') != -1 ) {
@@ -1776,7 +1780,7 @@ function jquery_ready() {
 				}
 			},
 			/* method: selectRange( textbox, start, len ) */
-			selectRange: function( textbox, start, len ) {
+			selectRange: function ( textbox, start, len ) {
 				if (textbox.createTextRange) {
 					var oRange = textbox.createTextRange();
 					oRange.moveStart('character', start);
@@ -1787,7 +1791,7 @@ function jquery_ready() {
 				textbox.focus();
 			},
 			/* method: typeAhead( textbox, str ) */
-			typeAhead: function( textbox, str ) {
+			typeAhead: function ( textbox, str ) {
 				if (textbox.createTextRange || textbox.setSelectionRange) {
 					var iLen = textbox.value.length;
 					textbox.value = str;
@@ -1795,7 +1799,7 @@ function jquery_ready() {
 				}
 			},
 			/* method: changeRuleProp( obj, e ) */
-			changeRuleProp: function( obj, e ) {
+			changeRuleProp: function ( obj, e ) {
 				var keyID = document.all ? window.event.keyCode : e.keyCode;
 				var aryProps = jQuery.jsFirebug.propAF;
 				switch ( keyID ) {
@@ -1838,11 +1842,11 @@ function jquery_ready() {
 				$(obj).css('width', 6 * obj.value.length + 'px');
 			},
 			/* method: highlightMultiple( action, obj ) */
-			highlightMultiple: function( action, objs ) {
+			highlightMultiple: function ( action, objs ) {
 				var jsFirebug = this;
 				switch ( action ) {
 					case 'set': {
-						$.each($(objs, opener.document), function() {
+						$.each($(objs, opener.document), function () {
 							this.bt = $(this).css('borderTop');
 							this.br = $(this).css('borderRight');
 							this.bb = $(this).css('borderBottom');
@@ -1852,7 +1856,7 @@ function jquery_ready() {
 						break;
 					}
 					case 'undo': {
-						$.each($(objs, opener.document), function() {
+						$.each($(objs, opener.document), function () {
  							$(this).css({
 								borderTop: this.bt != undefined ? this.bt : 'none',
 								borderRight: this.br != undefined ? this.br : 'none',
@@ -1865,7 +1869,7 @@ function jquery_ready() {
 				}
 			},
 			/* method: highlight( action, obj ) */
-			highlight: function( action, obj ) {
+			highlight: function ( action, obj ) {
 				switch ( action ) {
 					case 'add': {
 						var zi = this.getHighestZIndex() + 1;
@@ -1887,7 +1891,7 @@ function jquery_ready() {
 				}
 			},
 			/* method: disable( event, obj ) */
-			disable: function( event, obj ) {
+			disable: function ( event, obj ) {
 				switch ( event.type ) {
 					case 'mouseover': {
 						if ( !obj.on ) {
@@ -2017,7 +2021,7 @@ function jquery_ready() {
 				}
 			},
 			/* method: getDefaults( obj, val ) */
-			getDefaults: function( obj, val ) {
+			getDefaults: function ( obj, val ) {
 				var ret = bStyle = '';
 				while ( obj = obj.parentNode ) {
 					if ( obj.nodeName.toLowerCase() == 'body' )
@@ -2169,7 +2173,7 @@ function jquery_ready() {
 				return ret;
 			},
 			/* method: convertCssProp( str ) */
-			convertCssProp: function( str ) {
+			convertCssProp: function ( str ) {
 				var iStr = str.replace(/\s/g, '');
 				var ret = char = '';
 				var isDash = false;
@@ -2185,7 +2189,7 @@ function jquery_ready() {
 				return ret;
 			},
 			/* method: previewPopup( obj, action, e ) */
-			previewPopup: function( obj, action, e ) {
+			previewPopup: function ( obj, action, e ) {
 				switch ( action ) {
 					case 'create': {
 						var posx = posy = 0;
@@ -2259,13 +2263,13 @@ function jquery_ready() {
 				}
 			},
 			/* method: positionObjectToElement( obj, element, offX, offY ) */
-			positionObjectToElement: function( obj, element, offX, offY ) {
+			positionObjectToElement: function ( obj, element, offX, offY ) {
 				var coords = this.findPos(obj);
 				element.style.left = coords[0] + offX + 'px';
 				element.style.top = coords[1] + offY + 'px';
 			},
 			/* method: findPos( obj ) */
-			findPos: function( obj ) {
+			findPos: function ( obj ) {
 				var cLeft = cTop = 0;
 				if ( obj.offsetParent ) {
 					cLeft = obj.offsetLeft;
@@ -2278,7 +2282,7 @@ function jquery_ready() {
 				return [cLeft, cTop];
 			},
 			/* function compareNums(a, b) : Compares two numbers and returns the greater one */
-			compareNums: function(a, b) {
+			compareNums: function (a, b) {
 				return a - b;
 			},
 			/*
@@ -2288,7 +2292,7 @@ function jquery_ready() {
 					var highZIndex = this.getHighestZIndex();
 					document.getElementById('myID').style.zIndex = this.getHighestZindex() + 1;
 			*/
-			getHighestZIndex: function() {
+			getHighestZIndex: function () {
 				var allElements = document.getElementsByTagName('*');
 				var mZindices = new Array();
 				mZindices[0] = 0;
@@ -2304,18 +2308,18 @@ function jquery_ready() {
 					highest = 100;
 				return highest;
 			},
-			copy: function( copyObj ) {
+			copy: function ( copyObj ) {
 				eval("$.copy($('#htmlContext', document).get(0).obj." + copyObj + ");");
 			}
 		}
 	});
 	/* Object: jsFirebugWindow() */
-	$.jsFirebugWindow = function() {
+	$.jsFirebugWindow = function () {
 		this.init();
 	};
 	$.extend($.jsFirebugWindow, {
 		prototype: {
-			init: function() {
+			init: function () {
 				var self = this;
 				this.version = '2.0.3';
 				this.title = 'JS Firebug v ' + this.version;
@@ -2328,12 +2332,12 @@ function jquery_ready() {
 						nodeName: 'div',
 						attr: {id: 'menuWrap'},
 						append: [
-							{ nodeName: 'span', addClass: 'menuBtn', id: 'btnStyle', html: 'Style', bind: "'mouseover mouseout', function() { $(this).toggleClass('menuBtnHi');}", click: function() { jsfbW.show('Style'); } },
-							{ nodeName: 'span', addClass: 'menuBtn', id: 'btnCss', html: 'CSS', bind: "'mouseover mouseout', function() { $(this).toggleClass('menuBtnHi');}", click: function() { jsfbW.show('CSS'); } },
-							{ nodeName: 'span', addClass: 'menuBtn', id: 'btnHtml', html: 'HTML', bind: "'mouseover mouseout', function() { $(this).toggleClass('menuBtnHi');}", click: function() { jsfbW.show('HTML'); } },
-							{ nodeName: 'span', addClass: 'menuBtn', id: 'btnInfo', html: 'Info', bind: "'mouseover mouseout', function() { $(this).toggleClass('menuBtnHi');}", click: function() { jsfbW.show('Info'); } },
-							{ nodeName: 'span', addClass: 'menuBtn', id: 'btnScript', html: 'Script', bind: "'mouseover mouseout', function() { $(this).toggleClass('menuBtnHi');}", click: function() { jsfbW.show('Script'); } },
-							{ nodeName: 'span', addClass: 'menuBtn', id: 'btnColorCode', html: 'Visual', bind: "'mouseover mouseout', function() { $(this).toggleClass('menuBtnHi');}", click: function() { jsfbW.show('Visual'); } }
+							{ nodeName: 'span', addClass: 'menuBtn', id: 'btnStyle', html: 'Style', bind: "'mouseover mouseout', function () { $(this).toggleClass('menuBtnHi');}", click: function () { jsfbW.show('Style'); } },
+							{ nodeName: 'span', addClass: 'menuBtn', id: 'btnCss', html: 'CSS', bind: "'mouseover mouseout', function () { $(this).toggleClass('menuBtnHi');}", click: function () { jsfbW.show('CSS'); } },
+							{ nodeName: 'span', addClass: 'menuBtn', id: 'btnHtml', html: 'HTML', bind: "'mouseover mouseout', function () { $(this).toggleClass('menuBtnHi');}", click: function () { jsfbW.show('HTML'); } },
+							{ nodeName: 'span', addClass: 'menuBtn', id: 'btnInfo', html: 'Info', bind: "'mouseover mouseout', function () { $(this).toggleClass('menuBtnHi');}", click: function () { jsfbW.show('Info'); } },
+							{ nodeName: 'span', addClass: 'menuBtn', id: 'btnScript', html: 'Script', bind: "'mouseover mouseout', function () { $(this).toggleClass('menuBtnHi');}", click: function () { jsfbW.show('Script'); } },
+							{ nodeName: 'span', addClass: 'menuBtn', id: 'btnColorCode', html: 'Visual', bind: "'mouseover mouseout', function () { $(this).toggleClass('menuBtnHi');}", click: function () { jsfbW.show('Visual'); } }
 						]
 					},
 						{ nodeName: 'div', id: 'styleScreen', props: ['name="Style"'] },
@@ -2364,10 +2368,10 @@ function jquery_ready() {
 							append: [{ nodeName: 'a', attr: {href: 'javascript: $("#cssContext").css("display", "none"); void(0);'}, html: 'close' }]
 						},{
 							nodeName: 'li',
-							append: [{ nodeName: 'a', attr: {href: 'javascript: $("#cssContext").css("display", "none"); void(0);'}, html: 'Formatted', click: function() { $.jsFirebug.getCSS(); } }]
+							append: [{ nodeName: 'a', attr: {href: 'javascript: $("#cssContext").css("display", "none"); void(0);'}, html: 'Formatted', click: function () { $.jsFirebug.getCSS(); } }]
 						},{
 							nodeName: 'li',
-							append: [{ nodeName: 'a', attr: {href: 'javascript: $("#cssContext").css("display", "none"); void(0);'}, html: 'Compressed', click: function() { $.jsFirebug.getCSS(true); } }]
+							append: [{ nodeName: 'a', attr: {href: 'javascript: $("#cssContext").css("display", "none"); void(0);'}, html: 'Compressed', click: function () { $.jsFirebug.getCSS(true); } }]
 						}]
 					}]
 				}]);
@@ -2384,10 +2388,10 @@ function jquery_ready() {
 							append: [{ nodeName: 'a', attr: {href: 'javascript: document.getElementById("htmlContext").style.display="none"; void(0);'}, html: 'close' }]
 						},{
 							nodeName: 'li',
-							append: [{ nodeName: 'a', attr: {href: 'javascript: document.getElementById("htmlContext").style.display="none"; void(0);'}, html: 'copy HTML', click: function() { $.jsFirebug.copy('htmlCB'); } }]
+							append: [{ nodeName: 'a', attr: {href: 'javascript: document.getElementById("htmlContext").style.display="none"; void(0);'}, html: 'copy HTML', click: function () { $.jsFirebug.copy('htmlCB'); } }]
 						},{
 							nodeName: 'li',
-							append: [{ nodeName: 'a', attr: {href: 'javascript: document.getElementById("htmlContext").style.display="none"; void(0);'}, html: 'copy innerHTML', click: function() { $.jsFirebug.copy('innerHTMLCB'); } }]
+							append: [{ nodeName: 'a', attr: {href: 'javascript: document.getElementById("htmlContext").style.display="none"; void(0);'}, html: 'copy innerHTML', click: function () { $.jsFirebug.copy('innerHTMLCB'); } }]
 						}]
 					}]
 				}]);
@@ -2404,23 +2408,23 @@ function jquery_ready() {
 						},{
 							nodeName: 'li',
 							css: {textAlign: 'center'},
-							append: [{ nodeName: 'a', id: 'btnShowCCKey', props: ['method="nodeName"'], attr: {href: 'javascript: document.getElementById("ccContext").style.display="none"; void(0);'}, html: 'show key/sub menu', click: function() { $.jsFirebug.showCCKey(this.method); } }]
+							append: [{ nodeName: 'a', id: 'btnShowCCKey', props: ['method="nodeName"'], attr: {href: 'javascript: document.getElementById("ccContext").style.display="none"; void(0);'}, html: 'show key/sub menu', click: function () { $.jsFirebug.showCCKey(this.method); } }]
 						},{
 							nodeName: 'li',
 							css: {textAlign: 'center'},
-							append: [{ nodeName: 'a', attr: {href: 'javascript: document.getElementById("ccContext").style.display="none"; void(0);'}, html: 'Color By Node Name (default)', click: function() { $.jsFirebug.getVisual('all[i].nodeName.toLowerCase()'); $('#btnShowCCKey').get(0).method = 'nodeName'; } }]
+							append: [{ nodeName: 'a', attr: {href: 'javascript: document.getElementById("ccContext").style.display="none"; void(0);'}, html: 'Color By Node Name (default)', click: function () { $.jsFirebug.getVisual('all[i].nodeName.toLowerCase()'); $('#btnShowCCKey').get(0).method = 'nodeName'; } }]
 						},{
 							nodeName: 'li',
 							css: {textAlign: 'center'},
-							append: [{ nodeName: 'a', attr: {href: 'javascript: document.getElementById("ccContext").style.display="none"; void(0);'}, html: 'Color By Display', click: function() { $.jsFirebug.getVisual('$(all[i]).css(\'display\')'); $('#btnShowCCKey').get(0).method = 'display'; } }]
+							append: [{ nodeName: 'a', attr: {href: 'javascript: document.getElementById("ccContext").style.display="none"; void(0);'}, html: 'Color By Display', click: function () { $.jsFirebug.getVisual('$(all[i]).css(\'display\')'); $('#btnShowCCKey').get(0).method = 'display'; } }]
 						},{
 							nodeName: 'li',
 							css: {textAlign: 'center'},
-							append: [{ nodeName: 'a', attr: {href: 'javascript: document.getElementById("ccContext").style.display="none"; void(0);'}, html: 'Color By Font Family', click: function() { $.jsFirebug.getVisual('$(all[i]).css(\'font-family\')'); $('#btnShowCCKey').get(0).method = 'font-family'; } }]
+							append: [{ nodeName: 'a', attr: {href: 'javascript: document.getElementById("ccContext").style.display="none"; void(0);'}, html: 'Color By Font Family', click: function () { $.jsFirebug.getVisual('$(all[i]).css(\'font-family\')'); $('#btnShowCCKey').get(0).method = 'font-family'; } }]
 						},{
 							nodeName: 'li',
 							css: {textAlign: 'center'},
-							append: [{ nodeName: 'a', attr: {href: 'javascript: document.getElementById("ccContext").style.display="none"; void(0);'}, html: 'Color By Class Name', click: function() { $.jsFirebug.getVisual('$(all[i]).attr(\'className\')'); $('#btnShowCCKey').get(0).method = 'className'; } }]
+							append: [{ nodeName: 'a', attr: {href: 'javascript: document.getElementById("ccContext").style.display="none"; void(0);'}, html: 'Color By Class Name', click: function () { $.jsFirebug.getVisual('$(all[i]).attr(\'className\')'); $('#btnShowCCKey').get(0).method = 'className'; } }]
 						}]
 					}]
 				}]);
@@ -2429,22 +2433,22 @@ function jquery_ready() {
 				this.curScreen = this.windows[0];
 				this.adjustWindow();
 			},
-			createScreen: function( btnText, btnID, screenID ) {
-				$('#menuWrap').json2HTML( [{ nodeName: 'span', addClass: 'menuBtn', id: btnID, props: ['title="' + btnText + '"'], html: btnText, bind: "'mouseover mouseout', function() { $(this).toggleClass('menuBtnHi');}", click: function() { jsfbW.show(this.title); } }] );
+			createScreen: function ( btnText, btnID, screenID ) {
+				$('#menuWrap').json2HTML( [{ nodeName: 'span', addClass: 'menuBtn', id: btnID, props: ['title="' + btnText + '"'], html: btnText, bind: "'mouseover mouseout', function () { $(this).toggleClass('menuBtnHi');}", click: function () { jsfbW.show(this.title); } }] );
 				$('#jsfWrap').json2HTML( [{ nodeName: 'div', id: screenID ,props: ['name="' + btnText + '"'] }] );
 				this.windows.push($('#' + screenID).get(0));
 			},
-			show: function( scr ) {
+			show: function ( scr ) {
 				for ( var i=0; i<this.windows.length; i++ )
 					$(this.windows[i]).hide();
 				$(this.getWin(scr)).show();
 			},
-			changeTitle: function( str ) {
+			changeTitle: function ( str ) {
 				//$(this.jsfbTitle).html(this.title + str);
 			},
-			getWin: function( scr ) {
+			getWin: function ( scr ) {
 				var win = null;
-				$.each(this.windows, function(i) {
+				$.each(this.windows, function (i) {
 					if ( this.name == scr ) {
 						win = this;
 					}
@@ -2452,29 +2456,29 @@ function jquery_ready() {
 				this.curScreen = win;
 				return win;
 			},
-			write: function(scr, str) {
+			write: function (scr, str) {
 				if ( !scr )
 					return;
 				$(this.getWin(scr))
 					.html(str + '<br />')
 					.get(0).scrollTop = $(this.getWin(scr)).get(0).scrollHeight;
 			},
-			json2HTML: function( scr, obj ) {
+			json2HTML: function ( scr, obj ) {
 				if ( !scr || !obj )
 					return;
 				$(this.getWin(scr)).json2HTML(obj);
 			},
-			append: function( scr, obj ) {
+			append: function ( scr, obj ) {
 				if ( !scr || !obj )
 					return;
 				$(this.getWin(scr)).append(obj);
 			},
-			clear: function(scr) {
+			clear: function (scr) {
 				if (!scr)
 					return;
 				$(this.getWin(scr)).empty();
 			},
-			getWindowSize: function() {
+			getWindowSize: function () {
 				var w = 0, h = 0;
 				if ( typeof( window.innerWidth ) == 'number' ) {
 					/* Non-IE */
@@ -2491,14 +2495,14 @@ function jquery_ready() {
 				}
 				return [w, h];
 			},
-			adjustWindow: function() {
+			adjustWindow: function () {
 				var w = this.getWindowSize()[0];
 				var h = this.getWindowSize()[1];
 				$('#jsfWrap', document.body).css({
 					width	: w + 'px',
 					height	: h + 'px'
 				});
-				$.each(this.windows, function() {
+				$.each(this.windows, function () {
 					$(this).css({
 						width	: (w - 5) + 'px',
 						height	: h + 'px'
@@ -2516,10 +2520,10 @@ function jquery_ready() {
 //	$(document.body).append(pleaseWait);
 	var jsfbW = new $.jsFirebugWindow();
 	$.data(document.body, 'jsFirebugWindow', jsfbW);
-	$(window).bind('resize', function() {
+	$(window).bind('resize', function () {
 		jsfbW.adjustWindow();
 	});
-	$(window).bind('unload', function() {
+	$(window).bind('unload', function () {
 		try {
 			if ( opener.document.body )
 				opener.location.reload(true);
