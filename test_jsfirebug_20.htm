@@ -49,7 +49,6 @@
 $('#btn-start-jsfirebug').click(startJSFirebug);
 
 function startJSFirebug () {
-	console.log('ok');
 	/* since firebug was just loaded, it will be the last script tag on the page */
 	/* let's see if there are any plugins applied */
 	var jsfbPlugins = '';
@@ -58,8 +57,9 @@ function startJSFirebug () {
 		jsfbPlugins = '?' + jsfbTmp.substring(jsfbTmp.indexOf('plugins'), jsfbTmp.length);
 	}
 	jsfbWindow = null;
+
+	/* whatever domain */
 	var jsfbDomain = 'http://localhost:8081/';
-	//var jsfbDomain = 'http://common.scrippsnetworks.com/common/js/jsfirebug/';
 	if ( jsfbWindow != null ) { jsfbWindow.window.close(); }
 	jsfbWindow = window.open('', 'jsFirebugWindow', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=1,width=800,height=600');
 	if ( jsfbWindow != null ) {
